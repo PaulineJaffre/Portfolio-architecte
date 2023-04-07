@@ -158,19 +158,18 @@ let imgErrorMessage = document.createElement("span");
 let titleErrorMessage = document.createElement("span");
 
 imgFile.setAttribute("id", "imgPreview");
-imgErrorMessage.classList.add("imgErrorMessage");
+imgErrorMessage.classList.add("imgErrorMessage"); // création des messages d'erreurs
 titleErrorMessage.classList.add("titleErrorMessage");
 
-imgContainer.appendChild(imgFile);
-imgContainer.appendChild(imgErrorMessage);
+imgContainer.appendChild(imgFile, imgErrorMessage); // ajout des éléments au parent imgContainer
 
-//ajouter une image en cliquant sur le btn 
-imgFile.addEventListener("click", (e) => {
+//ajouter une image en cliquant sur le btn AjoutPhotoBtn
+imgFile.addEventListener("click", () => {
     ajoutPhotoBouton.click();
 });
 
 //valider l'image dans le projet
-ajoutPhotoBouton.addEventListener("change", (e) => {
+ajoutPhotoBouton.addEventListener("change", () => {
     imgFile.style.visibility = "visible";
 
     let [file] = ajoutPhotoBouton.files;
@@ -179,15 +178,15 @@ ajoutPhotoBouton.addEventListener("change", (e) => {
         imgPreview.src = URL.createObjectURL(file);
         inputContainer.style.display = "none";
 
-        let fileSize = file.size;
+        let fileSize = file.size; // Définition de la taille des images
         //1MB = 1024, 4MB = 4096 * 1024
         const maxFileSize = 4096 * 1024;
         
-        //restrict img size
+        //restriction de taille des img 
         if (fileSize > maxFileSize) {
             imgFile.remove();
             inputContainer.style.display = "inline-block";
-            imgErrorMessage.innerText = "La taille de l'image est trop grande";
+            imgErrorMessage.innerText = "La taille de l'image est trop grande"; // Affichage du message d'erreur si mauvaise taille
         }
         else {
             imgErrorMessage.innerText = "";
@@ -202,7 +201,7 @@ ajoutPhotoBouton.addEventListener("change", (e) => {
 
 //valider le titre du nouveau projet ajouté
 titrePhoto.addEventListener("input", (e) => {
-    if (titrePhoto.value === "") {
+    if (titrePhoto.value === "") { // si le champ de titre reste vide, affichage d'un message d'erreur
         titleErrorMessage.innerText = "Veuillez mettre un titre valide.";
         titrePhoto.classList.add("inputError");
     }
@@ -213,7 +212,7 @@ titrePhoto.addEventListener("input", (e) => {
 });
 
 //get toutes les catégories de l'API
-async function getCategoriesArrays() {
+async function getCategoriesArrays() { 
     const categories = await getAllCategories();
     addCategoriesToModal(categories);
 }
@@ -223,9 +222,9 @@ const addCategoriesToModal = (categories) => {
     const categoriePhotoContainer = document.getElementById("categoriePhoto");
 
     categories.forEach(function(category) {
-        const filtres = document.createElement("option");
+        const filtres = document.createElement("option"); // création de la constante filtres et de sa classe "option"
 
-        filtres.value = category.name;
+        filtres.value = category.name; // la valeur de la const filtres correspond aux noms des catégories de l'api
 
         categoriePhotoContainer.appendChild(filtres);
     });
@@ -233,10 +232,10 @@ const addCategoriesToModal = (categories) => {
 
 //validation du formulaire
 const submitPhoto = document.getElementById("validerBtn");
-submitPhoto.addEventListener("click", (e) => {
+submitPhoto.addEventListener("click", (e) => { // ajout d'un gestionnaire d'evenement au clic sur le btn de validation
     e.preventDefault();
 
-    let fileSize = imgButton.files[0].size;
+    let fileSize = ajoutPhotoBouton.files[0].size;
     const maxFileSize = 4096 * 1024;
     
     if((ajoutPhotoBouton.files.length === 0) || (fileSize > maxFileSize) || (titrePhoto.value === "")) {
@@ -256,7 +255,7 @@ submitPhoto.addEventListener("click", (e) => {
     }
 });
 
-//function sending the form to the API
+//function - envoi du formulaire à l'api
 async function sendForm(formData) {
     try {
         const res = await fetch("http://localhost:5678/api/works", {
@@ -268,12 +267,12 @@ async function sendForm(formData) {
             body: formData
         });
         if (res.ok) {
-            const newWork = await res.json();
+            const newProject = await res.json();
             //reset form
             clearForm();
             //add work to modal and gallery
             addProjectToModal(newProject);
-            addProject(newProject);
+            project(newProject);
         }
     } catch (err) {
     console.error(err);
@@ -291,6 +290,6 @@ function clearForm() {
 }
 
 // Appel de la fonction pour récupérer les projets depuis l'API
-getProjectsArrays();
+getProjectArrays();
 // Appel de la fonction pour récupérer les catégories depuis l'API
 getCategoriesArrays();
