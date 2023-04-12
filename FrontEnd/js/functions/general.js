@@ -1,12 +1,3 @@
-// Étape 1 : Créez la page de présentation des travaux à partir du HTML existant
-
-window.addEventListener('load', async () => { // attente du chargement de divCatgory avant d'appeler le click de bouton-tous
-    //getProject(); 
-    
-    await getCategory();
-
-    document.querySelector('.bouton-tous').click(); 
-});
 
 function getProject(event){
     // récupération de la div publications pour insérer la liste des publications
@@ -14,10 +5,6 @@ function getProject(event){
 
     // on vide la div des publications au cas où on a déjà appliqué un filtre
     divGallery.innerHTML = "";
-
-
-
-
 
     fetch("http://localhost:5678/api/works")
         .then(function(response) { 
@@ -122,12 +109,5 @@ async function getCategory() {
               // et on ajoute cette class active sur le bouton cliqué
         });
     });   
-     
-
-
-              
+            
 }
-
-
-
-
