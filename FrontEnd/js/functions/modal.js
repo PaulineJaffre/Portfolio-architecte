@@ -111,7 +111,13 @@ function addCategoriesToModal (categories)  {
     });
 };
 
+/* Création de la modale */
 
+
+let modal = null //variable qui stockera l'élément de la modale.
+const focusableSelector = "button, a, input, textarea" //chaîne de caractères qui spécifie les types d'éléments qui peuvent être mis au point dans la modale
+let focusables = [] //stockera tous les éléments focusables de la modale
+let previouslyFocusedElement = null //stockera l'élément qui avait le focus avant l'ouverture de la modale.
 
 function openModal (e) {
     e.preventDefault()/*tant que le user n'aura pas cliqué, la modale ne s'ouvrira pas */
@@ -207,8 +213,9 @@ async function getCategoriesModal() {
 // Ajoute un projet à la modal
 function addProjectToModal(project) {
     const modalGallery = document.querySelector(".modalGallery");
-    
+
     const figure = document.createElement("figure"); // Crée un élément <figure>
+    figure.classList.add("figureModal");
 
     const img = document.createElement("img"); // Crée un élément <img>
     img.src = project.imageUrl; // Définit l'attribut src de l'élément <img> avec l'URL de l'image du projet

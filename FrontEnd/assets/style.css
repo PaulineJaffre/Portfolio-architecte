@@ -86,7 +86,13 @@ body {
 	border-radius: 60px;
 }
 
+.show{
+	display: block;
+}
 
+.hide {
+	display: none;
+}
 
 header {
 	display: flex;
@@ -333,7 +339,7 @@ input[type="submit"]{
 	width: 600px;
 	max-width: calc(100vw-20px);
 	max-height: calc(100vh-20px);
-	padding: 20px;
+	padding: 50px;
 	overflow: auto; /* Enable scroll if needed */
   }
   
@@ -360,12 +366,24 @@ input[type="submit"]{
   #ajout-image {
 	background-color: #1D6154;
 	color:#fff;
+	margin: 20px 0px 10px 0px;
   }
 
   #supprimer-gallery{
 	color:red;
 	border:none;
 	font-weight: 400;
-
+	margin: 0;
   }
   
+  .modalGallery{
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+  }
+
+  .figureModal{
+	width: 20%;
+  }

@@ -11,10 +11,29 @@
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+		window.addEventListener('load', function(){
+			let isLoggedIn = sessionStorage.getItem("isLoggedIn");
+     		let isLoggedOut = sessionStorage.getItem("isLoggedOut");
+			console.log(isLoggedIn, isLoggedOut)
+			if (isLoggedIn) {
+				const isLoggedInList = document.querySelectorAll(".isLoggedIn");
+     			isLoggedInList.forEach(inList => {
+        		inList.classList.add("show")
+      			});
+			}
+			if (isLoggedOut){
+				const isLoggedOutList= document.querySelectorAll(".isLoggedOut");
+      			isLoggedOutList.forEach(outList => {
+        		outList.classList.add("hide")
+      			});
+			}
+		})
+	</script>
 </head>
 <body>
 	<aside>
-		<nav id="navEdition">
+		<nav id="navEdition" class="isLoggedIn">
 			<li class="liblack"><i class="fa fa-sharp fa-light fa-pen-to-square"></i>Mode édition</li>
 			<li class="publier">publier les changements</li>
 		</nav>
@@ -25,7 +44,8 @@
 		<ul>
 			<li>projets</li>
 			<li>contact</li>
-			<li><a href="login.html">login</a></li>
+			<li class="isLoggedOut"><a href="login.html">login</a></li>
+			<li class="isLoggedIn">logout</li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -36,18 +56,18 @@
 			<img src="./assets/images/sophie-bluel.png" alt="">
 		</figure>
 		<article>
-			<p class="modeedition"><i class="fa fa-sharp fa-light fa-pen-to-square"></i>Modifier</p>
+			<p class="modeedition isLoggedIn"><i class="fa fa-sharp fa-light fa-pen-to-square"></i>Modifier</p>
 			<h2>Designer d'espace</h2>
 			<p>Je raconte votre histoire, je valorise vos idées. Je vous accompagne de la conception à la livraison finale du chantier.</p>
 			<p>Chaque projet sera étudié en commun, de façon à mettre en valeur les volumes, les matières et les couleurs dans le respect de l’esprit des lieux et le choix adapté des matériaux. Le suivi du chantier sera assuré dans le souci du détail, le respect du planning et du budget.</p>
 			<p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG, décorateur(trice)</p>
 		</article>
-		<p class="modeedition finintroduction"><i class="fa fa-sharp fa-light fa-pen-to-square"></i>Modifier</p>
+		<p class="modeedition finintroduction isLoggedIn"><i class="fa fa-sharp fa-light fa-pen-to-square"></i>Modifier</p>
 	</section>
 	<section id="portfolio">
 		<h2>Mes Projets</h2>
 
-		<a href="modal1" id="modeEdition" class="openModal"><i class="fa fa-sharp fa-light fa-pen-to-square"></i>Mode édition</a>		
+		<a href="modal1" id="modeEdition" class="openModal isLoggedIn"><i class="fa fa-sharp fa-light fa-pen-to-square"></i>Mode édition</a>		
 
 		<aside id="modal1" class="modal" aria-hidden="true" role="dialog" style="display: none">
 			<span class="closeModal"><i class="fa-solid fa-xmark"></i></span>
@@ -59,9 +79,9 @@
 					<button id="ajout-image">Ajouter une photo</button>
 					<button id="supprimer-gallery">Supprimer la galerie</button>
 					
-				<div class="modalAjout">
+				<div class="modalAjout" style="display: none">
 					<h2>Ajout photo</h2>
-					<form id="ajoutPhoto-form" novalidate>
+					<form id="ajoutPhoto-form" novalidate >
 						<div id="imgContainer" class="imgContainer">
 							<i class="fa fa-solid fa-image"></i>
 							<label id="inputContainer" for="ajoutPhotoBouton" >
@@ -162,5 +182,6 @@
 <script src="js/functions/general.js"></script>
 <script src="js/functions/modal.js"></script>
 <script src="js/index.js"></script>
+<script src="js/login.js"></script>
 </body>
 </html>
