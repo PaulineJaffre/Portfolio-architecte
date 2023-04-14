@@ -66,7 +66,16 @@ function escapeModal(e) {
     }
 }
 
+ /*Création de la constante openModal et c'est une fonction qui prend en paramètre l'evenement.*/ 
+    // Ajouter un gestionnaire d'événement de clic au bouton d'ouverture
+    document.querySelectorAll('.openModal').forEach(a => {
+        
+        a.addEventListener('click', openModal)
 
+    });
+    window.addEventListener('keydown', function (e){
+        escapeModal(e);
+    })
 
 
 //récupère les projets depuis l'API et les ajoute à la modal
@@ -142,6 +151,9 @@ window.addEventListener('load', async () => { //gestionnaire d'événement à l'
 
     document.querySelector('.bouton-tous').click(); 
 
+    const arrow = document.getElementById("arrowBack"); // Définition de la flèche arrière
+    arrow.addEventListener("click", addProjectToModal); // Ajoute un événement de clic pour revenir en arrière
+
 
     // Appel de la fonction pour récupérer les projets depuis l'API
     getProjectModal();
@@ -151,6 +163,7 @@ window.addEventListener('load', async () => { //gestionnaire d'événement à l'
    //création de de la modale ajout Photo avec un formulaire
     const modalAjout = document.querySelector("modalAjout");
     let ajoutPhotoBouton = document.getElementById("ajoutPhotoBtn");
+    ajoutPhotoBouton.innerHTML="";
     let imgContainer = document.getElementById("imgContainer");
     let imgFile = document.createElement("img");
     let titrePhoto = document.getElementById("titrePhoto");
@@ -186,16 +199,7 @@ window.addEventListener('load', async () => { //gestionnaire d'événement à l'
         validateFormProject();
     });
 
-    /*Création de la constante openModal et c'est une fonction qui prend en paramètre l'evenement.*/ 
-    // Ajouter un gestionnaire d'événement de clic au bouton d'ouverture
-    document.querySelectorAll('.openModal').forEach(a => {
-        
-        a.addEventListener('click', openModal)
-
-    });
-    window.addEventListener('keydown', function (e){
-        escapeModal(e);
-    })
+   
 
     /* Activation des boutons d'ajout et de suppression */
 
@@ -222,7 +226,9 @@ async function getCategoriesModal() {
     .then(function(response) {
         return response.json();
     }).then(function(categories) {
-        addCategoriesToModal(categories);
+        categories.forEach(function(category) {
+        addCategoriesToModal(category);
+        });
     });
    
 }
@@ -254,7 +260,7 @@ function validateTitleProject() {
 
 function validateFormProject() {
     let fileSize = ajoutPhotoBouton.files[0].size;
-    const maxFileSize = 4096 * 1024;
+    const maxFileSize = 4 * 1024 * 1024;
     
     if((ajoutPhotoBouton.files.length === 0) || (fileSize > maxFileSize) || (titrePhoto.value === "")) {
         alert("Veuillez rajouter une image et/ou un titre valide");
