@@ -26,7 +26,7 @@ function openModal (e) {
     modal.removeAttribute('aria-hidden'); // rendre la modale visible
     modal.setAttribute('aria-modal', 'true'); //indique que c'est une boîte de dialogue modale
     //modal.addEventListener('click', closeModal); /* ajout d'un gestionnaire d'événement de clic sur la modale pour la fermer */
-    //modal.querySelector('.closeModal').addEventListener('click', closeModal); /* ajout d'un gestionnaire d'événement de clic sur le bouton de fermeture de la modale pour la fermer */
+    modal.querySelector('.closeModal').addEventListener('click', closeModal); /* ajout d'un gestionnaire d'événement de clic sur le bouton de fermeture de la modale pour la fermer */
     modal.querySelector('.closeModal').addEventListener('click', stopPropagation) ;/* ajout d'un gestionnaire d'événement de clic sur le bouton de fermeture de la modale pour éviter la propagation de l'événement de clic */
 
 };
@@ -144,69 +144,6 @@ function addProjectToModal(project) {
 
 }
 
-// MODALE 2 : AJOUT PHOTO
-window.addEventListener('load', async () => { //gestionnaire d'événement à l'objet window pour détecter quand la page a fini de charger
-    // Étape 1 : Créez la page de présentation des travaux à partir du HTML existant
-    await getCategory();
-
-    document.querySelector('.bouton-tous').click(); 
-
-    const arrow = document.getElementById("arrowBack"); // Définition de la flèche arrière
-    arrow.addEventListener("click", addProjectToModal); // Ajoute un événement de clic pour revenir en arrière
-
-
-    // Appel de la fonction pour récupérer les projets depuis l'API
-    getProjectModal();
-    // Appel de la fonction pour récupérer les catégories depuis l'API
-    getCategoriesModal();
-    
-   //création de de la modale ajout Photo avec un formulaire
-    const modalAjout = document.querySelector("modalAjout");
-    let ajoutPhotoBouton = document.getElementById("ajoutPhotoBtn");
-    ajoutPhotoBouton.innerHTML="";
-    let imgContainer = document.getElementById("imgContainer");
-    let imgFile = document.createElement("img");
-    let titrePhoto = document.getElementById("titrePhoto");
-    let imgErrorMessage = document.createElement("span");
-    let titleErrorMessage = document.createElement("span");
-
-    imgFile.setAttribute("id", "imgPreview");
-    imgErrorMessage.classList.add("imgErrorMessage"); // création des messages d'erreurs
-    titleErrorMessage.classList.add("titleErrorMessage");
-
-    imgContainer.appendChild(imgFile, imgErrorMessage); // ajout des éléments au parent imgContainer
-
-    //ajouter une image en cliquant sur le btn AjoutPhotoBtn
-    imgFile.addEventListener("click", () => {
-        ajoutPhotoBouton.click();
-    });
-
-    //valider l'image dans le projet
-    ajoutPhotoBouton.addEventListener("change", () => {
-         validateImageProject();
-    });
-
-    //valider le titre du nouveau projet ajouté
-    titrePhoto.addEventListener("input", (e) => {
-        validateTitleProject(e);
-    });
-
-    //validation du formulaire
-    const submitPhoto = document.getElementById("validerBtn");
-    submitPhoto.addEventListener("click", (e) => { // ajout d'un gestionnaire d'evenement au clic sur le btn de validation
-        e.preventDefault();
-
-        validateFormProject();
-    });
-
-   
-
-    /* Activation des boutons d'ajout et de suppression */
-
-    const ajoutButton = document.getElementById("ajout-image"); // Récupère le bouton d'ajout d'images
-    ajoutButton.addEventListener("click", addPicture); // Ajoute un événement de clic sur le bouton d'ajout d'images qui appelle la fonction addPicture
-
-
 
 
 // Cette fonction ouvre la modal pour ajouter une image.
@@ -222,16 +159,22 @@ function addPicture(e) {
 
 //get toutes les catégories de l'API
 async function getCategoriesModal() { 
-    fetch("http://localhost:5678/api/categories")
+
+    fetch("http://localhost:5678/api/categories", {
+    method: 'get',
+        headers: {
+            'accept': 'application/json'
+        }
+    })
     .then(function(response) {
         return response.json();
-    }).then(function(categories) {
-        categories.forEach(function(category) {
+    }).then(function(category) {
         addCategoriesToModal(category);
         });
-    });
+    
    
-}
+    
+
 
 //Ajout des catégories au DOM
 function addCategoriesToModal (categories)  {
@@ -241,11 +184,12 @@ function addCategoriesToModal (categories)  {
         const filtres = document.createElement("option"); // création de la constante filtres et de sa classe "option"
 
         filtres.value = category.name; // la valeur de la const filtres correspond aux noms des catégories de l'api
-
+        filtres.innerHTML= category.name;
         categoriePhotoContainer.appendChild(filtres);
     });
 };
 
+};
 
 function validateTitleProject() {
     if (titrePhoto.value === "") { // si le champ de titre reste vide, affichage d'un message d'erreur
@@ -284,9 +228,11 @@ function validateImageProject() {
 
     let [file] = ajoutPhotoBouton.files;
 
+    const inputContainer= document.querySelector("imgContainer");
+
     if (file) {
         imgPreview.src = URL.createObjectURL(file);
-        inputContainer.style.display = "none";
+        inputContainer.classList.add("hide");
 
         let fileSize = file.size; // Définition de la taille des images
         //1MB = 1024, 4MB = 4096 * 1024
@@ -295,7 +241,7 @@ function validateImageProject() {
         //restriction de taille des img 
         if (fileSize > maxFileSize) {
             imgFile.remove();
-            inputContainer.style.display = "inline-block";
+            inputContainer.classList.add("show");
             imgErrorMessage.innerText = "La taille de l'image est trop grande"; // Affichage du message d'erreur si mauvaise taille
         }
         else {
@@ -305,7 +251,7 @@ function validateImageProject() {
     //do not allow empty img src
     else if (imgFile.src === "") {
         imgFile.remove();
-        inputContainer.style.display = "inline-block";
+        inputContainer.classList.add("show");
     }
 }
 
@@ -340,5 +286,3 @@ function clearForm() {
     imgFile.style.visibility = "hidden";
     inputContainer.style.display = "inline-block";
 }
-
-});

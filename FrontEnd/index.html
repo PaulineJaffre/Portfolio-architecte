@@ -11,25 +11,7 @@
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script>
-		window.addEventListener('load', function(){
-			let isLoggedIn = sessionStorage.getItem("isLoggedIn");
-     		let isLoggedOut = sessionStorage.getItem("isLoggedOut");
-			console.log(isLoggedIn, isLoggedOut)
-			if (isLoggedIn) {
-				const isLoggedInList = document.querySelectorAll(".isLoggedIn");
-     			isLoggedInList.forEach(inList => {
-        		inList.classList.add("show")
-      			});
-			}
-			if (isLoggedOut){
-				const isLoggedOutList= document.querySelectorAll(".isLoggedOut");
-      			isLoggedOutList.forEach(outList => {
-        		outList.classList.add("hide")
-      			});
-			}
-		})
-	</script>
+	
 </head>
 <body>
 	<aside>
@@ -45,7 +27,7 @@
 			<li>projets</li>
 			<li>contact</li>
 			<li class="isLoggedOut"><a href="login.html">login</a></li>
-			<li class="isLoggedIn">logout</li>
+			<li class="isLoggedIn"><a href="#" id="logout">logout</a></li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -181,7 +163,8 @@
 
 <script src="js/functions/general.js"></script>
 <script src="js/functions/modal.js"></script>
+<script src="js/functions/connexion.js"></script>
 <script src="js/index.js"></script>
-<script src="js/login.js"></script>
+
 </body>
 </html>

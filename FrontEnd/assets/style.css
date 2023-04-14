@@ -461,6 +461,14 @@ input[type="submit"]{
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
+#categoriePhoto{
+	color: black;
+}
+
 #validerBtn{
 	background-color:#A7A7A7;
+}
+
+.photoAjoute {
+	width: 20%;
 }
