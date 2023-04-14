@@ -5,7 +5,6 @@ const form = document.querySelector("#login-form");
 const email = document.querySelector("#login-email").value;  
 const password = document.querySelector("#login-password").value;
 
-console.log("values")
 form.addEventListener("submit", async (event) => {
   event.preventDefault(); // empêcher le rechargement de la page par défaut
   // paramètres d'appel du fetch
@@ -26,15 +25,15 @@ form.addEventListener("submit", async (event) => {
     const formEl = document.getElementById('login-form');
     console.log("formEl",formEl)
     const formData = new FormData(formEl);
-    console.log("this is the funvtion getting")
     const response = await fetch ('http://localhost:5678/api/users/login', { 
         method: 'POST', 
-        headers: { 'Content-Type': 'application/json', }, 
+        headers: { 'accept': 'application/json', 'Content-Type': 'application/json', }, 
 
 
     ///Permet de pouvoir traiter les infos du formData en JSON 
     
-    body: JSON.stringify(Object.fromEntries(formData)) })
+    body: JSON.stringify(Object.fromEntries(formData))
+  })
 
     // traite la réponse de l'API pour savoir si connexion réussie ou non
     if (response.status === 200) {

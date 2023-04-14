@@ -54,7 +54,7 @@ body {
 	font-size: 14px;
 }
 
-#navedition {
+#navEdition {
 	width:100%;
 	background-color: black;
 	display: flex;
@@ -63,7 +63,7 @@ body {
 	padding: 10px 0;
 	}
 
-#navedition li{
+#navEdition li{
 	list-style-type: none;
 	font-family: 'Work Sans';
 	font-style: normal;
@@ -74,16 +74,20 @@ body {
 	color: black;
 }
 
-#navedition li.liblack{
+#navEdition li.liblack{
 	color:white;
 }
 
-#navedition li.publier{
+#navEdition li.publier{
 	line-height: 30px;
 	text-align: center;
 	background-color: white;
 	text-align: center;
 	border-radius: 60px;
+}
+
+.isLoggedIn{
+	display: none;
 }
 
 .show{
@@ -386,4 +390,53 @@ input[type="submit"]{
 
   .figureModal{
 	width: 20%;
+	display: grid;
+	justify-content: center;
+	margin-bottom: 5px;
   }
+
+.imgModal{
+	position: relative;
+}
+.figCaption{
+	position: relative;
+}
+
+  .deleteTrashIcon{
+	position: absolute;
+	padding: 5px;
+	margin: 5px 0 0 80px;
+	background-color: black;
+	color: #fff;
+  }
+
+
+  /* Form photos */
+
+#ajoutPhoto-form {
+	width: 80%;
+	margin: auto;
+	text-align: left;
+display: block;
+}
+#ajoutPhoto-form > * {
+	text-align: center;
+
+}
+
+
+
+#ajoutPhoto-form input {
+	height: 50px;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+#ajoutPhoto-form label {
+	margin: 2em 0 1em 0;
+}
+#ajoutPhoto-form textarea {
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
