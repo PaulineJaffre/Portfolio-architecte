@@ -6,7 +6,7 @@ window.addEventListener('load', function(){
     if (isLoggedIn) {
         const isLoggedInList = document.querySelectorAll(".isLoggedIn");
          isLoggedInList.forEach(inList => {
-        inList.style.display = "block";
+        inList.style.display = "flex";
           });
     }
     if (isLoggedOut){
@@ -31,21 +31,44 @@ window.addEventListener('load', async () => { //gestionnaire d'événement à l'
 
     document.querySelector('.bouton-tous').click(); 
 
-    const arrow = document.getElementById("arrowBack"); // Définition de la flèche arrière
-    arrow.addEventListener("click", addProjectToModal); // Ajoute un événement de clic pour revenir en arrière
+    // Si l'utilisateur appuie sur la fèche alors retour à la modal d'éditon et supression initiale
+    const arrowBack = document.getElementById("arrowBack"); // Définition de la flèche arrière
+    arrowBack.addEventListener("click", backToBasicModal );// Ajoute un événement de clic pour revenir en arrière 
 
 
     // Appel de la fonction pour récupérer les projets depuis l'API
     getProjectModal();
     // Appel de la fonction pour récupérer les catégories depuis l'API
     getCategoriesModal();
+
+
+    //si l'utilisateur appuie sur une icone de supression
+    document.addEventListener('click', async function (e) {
+        if (e.target.classList.contains('deleteTrashIcon')) {
+            //récupération de l'id du target
+            id = e.target.id;
+            //Appel de l'API works avec l'id à supprimer en method DELETE
+            await fetch(`http://localhost:5678/api/works/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    "Accept": "*/*",
+                    "Authorization": 'Bearer ' + sessionStorage.token
+                }
+            })
+            e.target.parentElement.remove(); //suppression du target
+            const listToDelete = document.querySelector('.categories');
+            listToDelete.innerHTML = "";
+            getProject(); //simulation réactualisation de la page 
+        }
+    })
     
+        
    //création de de la modale ajout Photo avec un formulaire
-    const modalAjout = document.querySelector("modalAjout");
     let ajoutPhotoBouton = document.getElementById("ajoutPhotoBtn");
     ajoutPhotoBouton.innerHTML="";
     let imgContainer = document.getElementById("imgContainer");
     let imgFile = document.createElement("img");
+
     let titrePhoto = document.getElementById("titrePhoto");
     let imgErrorMessage = document.createElement("span");
     let titleErrorMessage = document.createElement("span");
@@ -62,10 +85,28 @@ window.addEventListener('load', async () => { //gestionnaire d'événement à l'
         ajoutPhotoBouton.click();
     });
 
-    //valider l'image dans le projet
+    /*valider l'image dans le projet
     ajoutPhotoBouton.addEventListener("change", () => {
         validateImageProject();
-    });
+    });*/
+
+    // function to get user file input
+    document.addEventListener('change', function (e) {
+        if (e.target.classList.contains('ajoutPhotoBouton')) {
+            if (validFileType(e.target.files[0] === '')) { }
+            else {
+                if (e.target.files[0].type === 'image/png' || e.target.files[0].type === 'image/jpeg') {
+                    if (e.target.files[0].size > 4000000) { alert('Photo trop volumineuse') }
+                    else {
+                        const imgUploaded = document.createElement('img');
+                        imgUploaded.src = URL.createObjectURL(e.target.files[0]);
+                        imgUploaded.className = 'img-uploaded';
+                        document.querySelector('.imgContainer').appendChild(imgUploaded);
+                    }
+                } else { alert('Format non accepté') }
+            }
+        }
+    })
 
     //valider le titre du nouveau projet ajouté
     titrePhoto.addEventListener("input", (e) => {

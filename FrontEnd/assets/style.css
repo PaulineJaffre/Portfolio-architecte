@@ -471,4 +471,6 @@ input[type="submit"]{
 
 .photoAjoute {
 	width: 20%;
+	display: block;
+
 }
