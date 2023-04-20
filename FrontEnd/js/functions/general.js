@@ -49,7 +49,7 @@ function getProject(event){
 
         })
         .catch(function(error) {
-            console.log("Erreur : " + error)
+           console.log("Erreur : " + error)
         }); 
 
 

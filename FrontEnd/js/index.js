@@ -46,9 +46,9 @@ window.addEventListener('load', async () => { //gestionnaire d'événement à l'
     document.addEventListener('click', async function (e) {
         if (e.target.classList.contains('deleteTrashIcon')) {
             //récupération de l'id du target
-            id = e.target.id;
+            projectId = e.target.id;
             //Appel de l'API works avec l'id à supprimer en method DELETE
-            await fetch(`http://localhost:5678/api/works/${id}`, {
+            await fetch("http://localhost:5678/api/works/" + projectId, {
                 method: 'DELETE',
                 headers: {
                     "Accept": "*/*",
@@ -60,9 +60,11 @@ window.addEventListener('load', async () => { //gestionnaire d'événement à l'
             listToDelete.innerHTML = "";
             getProject(); //simulation réactualisation de la page 
         }
-    })
+    }) 
     
-        
+    
+    
+
    //création de de la modale ajout Photo avec un formulaire
     let ajoutPhotoBouton = document.getElementById("ajoutPhotoBtn");
     ajoutPhotoBouton.innerHTML="";

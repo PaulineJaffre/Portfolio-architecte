@@ -117,31 +117,14 @@ function addProjectToModal(project) {
     const deleteWork = document.createElement("i"); // Crée un élément <i> pour le bouton de suppression
     deleteWork.classList.add("deleteTrashIcon", "fa", "fa-solid", "fa-trash-can"); // Ajoute les classes CSS pour l'icône de poubelle
     
-    /*Supprimer les images sélectionnées
-    deleteWork.addEventListener("click", async function (projectId) {
-        try {
-            const res = await fetch("http://localhost:5678/api/works/" + projectId, {
-                method: "DELETE",
-                headers: {
-                    "accept": "* / *",
-                    "Authorization": `Bearer ${token}`
-                },
-            });
-            if (res.ok) {
-                document.getElementById(workId).remove();
-                document.getElementById("project-work-" + workId).remove();
-            }
-        }
-        catch (err) {
-            console.error(err);
-        }
-    });*/
-
-    
     figure.append(img, figcaption, categoryId, deleteWork); // Ajoute les éléments <img>, <figcaption>, <p> et <i> à l
 
     modalGallery.append(figure);
 
+
+
+
+    
 }
 
 
