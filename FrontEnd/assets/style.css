@@ -57,7 +57,6 @@ body {
 #navEdition {
 	width:100%;
 	background-color: black;
-	display: flex;
 	justify-content: center;
 	align-items: center;
 	padding: 10px 0;
@@ -91,7 +90,7 @@ body {
 }
 
 .show{
-	display: block;
+	display: flex;
 }
 
 .hide {
@@ -149,9 +148,7 @@ a{
 	color :black;
 }
 
-.modeedition{
-	display: inline-block;
-}
+
 
 #introduction {
 	display: flex;
@@ -471,4 +468,6 @@ input[type="submit"]{
 
 .photoAjoute {
 	width: 20%;
+	display: block;
+
 }
