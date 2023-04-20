@@ -5,6 +5,7 @@ function stopPropagation (e){ //empêcher la propagation des événements
 /* MODALE */
 
 
+
 /* Création de la modale */
 
 
@@ -25,7 +26,8 @@ function openModal (e) {
     focusables[0].focus() ;//focus sur le premier élément focusable de la modale
     modal.removeAttribute('aria-hidden'); // rendre la modale visible
     modal.setAttribute('aria-modal', 'true'); //indique que c'est une boîte de dialogue modale
-    //modal.addEventListener('click', closeModal); /* ajout d'un gestionnaire d'événement de clic sur la modale pour la fermer */
+
+ 
     modal.querySelector('.closeModal').addEventListener('click', closeModal); /* ajout d'un gestionnaire d'événement de clic sur le bouton de fermeture de la modale pour la fermer */
     modal.querySelector('.closeModal').addEventListener('click', stopPropagation) ;/* ajout d'un gestionnaire d'événement de clic sur le bouton de fermeture de la modale pour éviter la propagation de l'événement de clic */
 
@@ -66,6 +68,7 @@ function escapeModal(e) {
     }
 }
 
+
  /*Création de la constante openModal et c'est une fonction qui prend en paramètre l'evenement.*/ 
     // Ajouter un gestionnaire d'événement de clic au bouton d'ouverture
     document.querySelectorAll('.openModal').forEach(a => {
@@ -97,6 +100,7 @@ async function getProjectModal() {
 function addProjectToModal(project) {
     const modalGallery = document.querySelector(".modalGallery");
 
+
     const figure = document.createElement("figure"); // Crée un élément <figure>
     figure.classList.add("figureModal");
 
@@ -110,13 +114,16 @@ function addProjectToModal(project) {
     figcaption.alt = project.title; // Définit l'attribut alt de l'élément <figcaption> avec le titre du projet
     figcaption.textContent = "éditer"; // Ajoute le texte "Editer" à l'élément <figcaption>
 
+
     const categoryId = document.createElement("p"); // Crée un élément <p> pour stocker l'ID de la catégorie
     categoryId.src = project.categoryId; // Définit l'attribut src de l'élément <p> avec l'ID de la catégorie du projet
     
 
     const deleteWork = document.createElement("i"); // Crée un élément <i> pour le bouton de suppression
+
     deleteWork.classList.add("deleteTrashIcon", "fa", "fa-solid", "fa-trash-can"); // Ajoute les classes CSS pour l'icône de poubelle
     
+
     figure.append(img, figcaption, categoryId, deleteWork); // Ajoute les éléments <img>, <figcaption>, <p> et <i> à l
 
     modalGallery.append(figure);
@@ -126,6 +133,7 @@ function addProjectToModal(project) {
 
     
 }
+
 
 
 
@@ -309,6 +317,7 @@ function clearForm() {
 }
 
 
+
 // Si l'utilisateur appuie sur la fèche alors retour à la modal d'éditon et supression initiale
 function backToBasicModal() {
     let modalPhoto = document.querySelector(".modalPhoto"); // Récupère l'élément modalGallery dans le HTML   
@@ -316,3 +325,4 @@ function backToBasicModal() {
     modalPhoto.style.display = "block"; // Affiche la modalGallery
     modalAjout.style.display = "none"; // Cache la modalAjout
 }
+
