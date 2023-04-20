@@ -1,18 +1,42 @@
 
+window.addEventListener('load', function(){
+    
+    let isLoggedIn = sessionStorage.getItem("isLoggedIn");
+     let isLoggedOut = sessionStorage.getItem("isLoggedOut");
+    console.log(isLoggedIn, isLoggedOut)
+    if (isLoggedIn) {
+        const isLoggedInList = document.querySelectorAll(".isLoggedIn");
+         isLoggedInList.forEach(inList => {
+        inList.style.display = "block";
+          });
+    }
+    if (isLoggedOut){
+        const isLoggedOutList= document.querySelectorAll(".isLoggedOut");
+          isLoggedOutList.forEach(outList => {
+        outList.style.display ="none";
+          });
+    }
+});
+document.querySelector('#logout').addEventListener('click' , function(event) {
+    event.preventDefault();
 
-window.addEventListener('load', async (e) => { //gestionnaire d'événement à l'objet window pour détecter quand la page a fini de charger
+    console.log("se déconnecter")
+
+    deconnecter();
+});
+
+// MODALE 2 : AJOUT PHOTO
+window.addEventListener('load', async () => { //gestionnaire d'événement à l'objet window pour détecter quand la page a fini de charger
+
     // Étape 1 : Créez la page de présentation des travaux à partir du HTML existant
     await getCategory();
 
     document.querySelector('.bouton-tous').click(); 
 
-    /* Création de la modale */
+    const arrow = document.getElementById("arrowBack"); // Définition de la flèche arrière
+    arrow.addEventListener("click", addProjectToModal); // Ajoute un événement de clic pour revenir en arrière
 
 
-    let modal = null //variable qui stockera l'élément de la modale.
-    const focusableSelector = "button, a, input, textarea" //chaîne de caractères qui spécifie les types d'éléments qui peuvent être mis au point dans la modale
-    let focusables = [] //stockera tous les éléments focusables de la modale
-    let previouslyFocusedElement = null //stockera l'élément qui avait le focus avant l'ouverture de la modale.
 
     // Appel de la fonction pour récupérer les projets depuis l'API
     getProjectModal();
@@ -22,6 +46,9 @@ window.addEventListener('load', async (e) => { //gestionnaire d'événement à l
    //création de de la modale ajout Photo avec un formulaire
     const modalAjout = document.querySelector("modalAjout");
     let ajoutPhotoBouton = document.getElementById("ajoutPhotoBtn");
+
+    ajoutPhotoBouton.innerHTML="";
+
     let imgContainer = document.getElementById("imgContainer");
     let imgFile = document.createElement("img");
     let titrePhoto = document.getElementById("titrePhoto");
@@ -29,6 +56,9 @@ window.addEventListener('load', async (e) => { //gestionnaire d'événement à l
     let titleErrorMessage = document.createElement("span");
 
     imgFile.setAttribute("id", "imgPreview");
+
+    imgFile.classList.add("photoAjoute");
+
     imgErrorMessage.classList.add("imgErrorMessage"); // création des messages d'erreurs
     titleErrorMessage.classList.add("titleErrorMessage");
 
@@ -41,7 +71,9 @@ window.addEventListener('load', async (e) => { //gestionnaire d'événement à l
 
     //valider l'image dans le projet
     ajoutPhotoBouton.addEventListener("change", () => {
-         validateImageProject();
+
+        validateImageProject();
+
     });
 
     //valider le titre du nouveau projet ajouté
@@ -57,20 +89,14 @@ window.addEventListener('load', async (e) => { //gestionnaire d'événement à l
         validateFormProject();
     });
 
-    /*Création de la constante openModal et c'est une fonction qui prend en paramètre l'evenement.*/ 
-    // Ajouter un gestionnaire d'événement de clic au bouton d'ouverture
-    document.querySelectorAll('.openModal').forEach(a => {
-        
-        a.addEventListener('click', openModal)
 
-    });
-    window.addEventListener('keydown', function (e){
-        escapeModal(e);
-    })
 
     /* Activation des boutons d'ajout et de suppression */
 
     const ajoutButton = document.getElementById("ajout-image"); // Récupère le bouton d'ajout d'images
     ajoutButton.addEventListener("click", addPicture); // Ajoute un événement de clic sur le bouton d'ajout d'images qui appelle la fonction addPicture
 
+
 });
+
+

@@ -1,5 +1,4 @@
 
-
 function getProject(event){
     // récupération de la div publications pour insérer la liste des publications
     const divGallery = document.querySelector(".gallery");
@@ -110,6 +109,4 @@ async function getCategory() {
               // et on ajoute cette class active sur le bouton cliqué
         });
     });   
-            
-}
 

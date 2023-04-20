@@ -54,7 +54,7 @@ body {
 	font-size: 14px;
 }
 
-#navedition {
+#navEdition {
 	width:100%;
 	background-color: black;
 	display: flex;
@@ -63,7 +63,7 @@ body {
 	padding: 10px 0;
 	}
 
-#navedition li{
+#navEdition li{
 	list-style-type: none;
 	font-family: 'Work Sans';
 	font-style: normal;
@@ -74,11 +74,11 @@ body {
 	color: black;
 }
 
-#navedition li.liblack{
+#navEdition li.liblack{
 	color:white;
 }
 
-#navedition li.publier{
+#navEdition li.publier{
 	line-height: 30px;
 	text-align: center;
 	background-color: white;
@@ -86,7 +86,17 @@ body {
 	border-radius: 60px;
 }
 
+.isLoggedIn{
+	display: none;
+}
 
+.show{
+	display: block;
+}
+
+.hide {
+	display: none;
+}
 
 header {
 	display: flex;
@@ -333,7 +343,7 @@ input[type="submit"]{
 	width: 600px;
 	max-width: calc(100vw-20px);
 	max-height: calc(100vh-20px);
-	padding: 20px;
+	padding: 50px;
 	overflow: auto; /* Enable scroll if needed */
   }
   
@@ -360,12 +370,105 @@ input[type="submit"]{
   #ajout-image {
 	background-color: #1D6154;
 	color:#fff;
+	margin: 20px 0px 10px 0px;
   }
 
   #supprimer-gallery{
 	color:red;
 	border:none;
 	font-weight: 400;
-
+	margin: 0;
   }
   
+  .modalGallery{
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+  }
+
+  .figureModal{
+	width: 20%;
+	display: grid;
+	justify-content: center;
+	margin-bottom: 5px;
+  }
+
+.imgModal{
+	position: relative;
+}
+.figCaption{
+	position: relative;
+}
+
+  .deleteTrashIcon{
+	position: absolute;
+	padding: 5px;
+	margin: 5px 0 0 80px;
+	background-color: black;
+	color: #fff;
+  }
+
+
+  /* Form photos */
+
+#ajoutPhoto-form {
+	width: 80%;
+	margin: auto;
+	display: grid;
+}
+
+#imgContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	padding: 20px 0 20px 0;
+	background-color: #E8F1F6;
+
+}
+
+.ajoutPhotoIcon{
+	font-size: 50px;
+	color: 	#B9C5CC;
+}
+
+#ajoutPhotoBtn{
+	font-family: 'Syne';
+	font-weight: 700;
+	color: #306685;
+	background-color:#CBD6DC;
+	margin : 2em auto ;
+	width: 180px;
+	text-align: center;
+	border-radius: 60px ;
+	display: flex;
+	justify-content: center;
+}
+
+#ajoutPhoto-form input, select {
+	height: 50px;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+#ajoutPhoto-form label {
+	margin: 2em 0 1em 0;
+}
+#ajoutPhoto-form textarea {
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+#categoriePhoto{
+	color: black;
+}
+
+#validerBtn{
+	background-color:#A7A7A7;
+}
+
+.photoAjoute {
+	width: 20%;
+}
