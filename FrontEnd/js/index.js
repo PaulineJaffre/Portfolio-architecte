@@ -1,3 +1,4 @@
+
 window.addEventListener('load', function(){
     
     let isLoggedIn = sessionStorage.getItem("isLoggedIn");
@@ -26,6 +27,7 @@ document.querySelector('#logout').addEventListener('click' , function(event) {
 
 // MODALE 2 : AJOUT PHOTO
 window.addEventListener('load', async () => { //gestionnaire d'événement à l'objet window pour détecter quand la page a fini de charger
+
     // Étape 1 : Créez la page de présentation des travaux à partir du HTML existant
     await getCategory();
 
@@ -33,6 +35,7 @@ window.addEventListener('load', async () => { //gestionnaire d'événement à l'
 
     const arrow = document.getElementById("arrowBack"); // Définition de la flèche arrière
     arrow.addEventListener("click", addProjectToModal); // Ajoute un événement de clic pour revenir en arrière
+
 
 
     // Appel de la fonction pour récupérer les projets depuis l'API
@@ -43,7 +46,9 @@ window.addEventListener('load', async () => { //gestionnaire d'événement à l'
    //création de de la modale ajout Photo avec un formulaire
     const modalAjout = document.querySelector("modalAjout");
     let ajoutPhotoBouton = document.getElementById("ajoutPhotoBtn");
+
     ajoutPhotoBouton.innerHTML="";
+
     let imgContainer = document.getElementById("imgContainer");
     let imgFile = document.createElement("img");
     let titrePhoto = document.getElementById("titrePhoto");
@@ -51,7 +56,9 @@ window.addEventListener('load', async () => { //gestionnaire d'événement à l'
     let titleErrorMessage = document.createElement("span");
 
     imgFile.setAttribute("id", "imgPreview");
+
     imgFile.classList.add("photoAjoute");
+
     imgErrorMessage.classList.add("imgErrorMessage"); // création des messages d'erreurs
     titleErrorMessage.classList.add("titleErrorMessage");
 
@@ -64,7 +71,9 @@ window.addEventListener('load', async () => { //gestionnaire d'événement à l'
 
     //valider l'image dans le projet
     ajoutPhotoBouton.addEventListener("change", () => {
+
         validateImageProject();
+
     });
 
     //valider le titre du nouveau projet ajouté
@@ -80,7 +89,7 @@ window.addEventListener('load', async () => { //gestionnaire d'événement à l'
         validateFormProject();
     });
 
-   
+
 
     /* Activation des boutons d'ajout et de suppression */
 
@@ -89,4 +98,5 @@ window.addEventListener('load', async () => { //gestionnaire d'événement à l'
 
 
 });
+
 
