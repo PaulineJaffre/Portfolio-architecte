@@ -30,7 +30,8 @@ async function connexionUser() {
     if (response.status === 200) {
       // stock réponse serveur qui représente les informations de l'utilisateur dans variable userInfos
       const userInfos = await response.json();
-      sessionStorage.setItem("user", JSON.stringify(userInfos));
+      const token = JSON.stringify(userInfos.token);
+      sessionStorage.setItem("token", JSON.parse(token));
       sessionStorage.setItem("isLoggedIn", true)
       sessionStorage.setItem("isLoggedOut", false)
       const isLoggedOutList = document.querySelectorAll(".isLoggedOut");
@@ -63,5 +64,18 @@ async function connexionUser() {
   }
 
 function deconnecter() {
+  //sessionStorage.removeItem("token", JSON.parse(token));
+  sessionStorage.removeItem("isLoggedIn", false)
+  sessionStorage.removeItem("isLoggedOut", true)
+  const isLoggedOutList = document.querySelectorAll(".isLoggedOut");
+  isLoggedOutList.forEach(outList => {
+    outList.hidden = false;
+      });
+  const isLoggedInList = document.querySelectorAll(".isLoggedIn");
+  isLoggedInList.forEach(inList => {
+      inList.hidden = true;
+      });
+  // redirige l'utilisateur vers la page d'accueil
+  window.location.href = "./index.html";
 
 }

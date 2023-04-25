@@ -16,6 +16,7 @@ window.addEventListener('load', function(){
           });
     }
 });
+
 document.querySelector('#logout').addEventListener('click' , function(event) {
     event.preventDefault();
 
@@ -46,13 +47,14 @@ window.addEventListener('load', async () => { //gestionnaire d'événement à l'
     document.addEventListener('click', async function (e) {
         if (e.target.classList.contains('deleteTrashIcon')) {
             //récupération de l'id du target
-            projectId = e.target.id;
+            projectId = e.target.dataset.id;
+            console.log(sessionStorage.getItem('token'));
             //Appel de l'API works avec l'id à supprimer en method DELETE
             await fetch("http://localhost:5678/api/works/" + projectId, {
                 method: 'DELETE',
                 headers: {
-                    "Accept": "*/*",
-                    "Authorization": 'Bearer ' + sessionStorage.token
+                    "Content-Type": "application/json; charset=utf-8",
+                    "authorization": `Bearer ${sessionStorage.getItem('token')}`
                 }
             })
             e.target.parentElement.remove(); //suppression du target
@@ -63,52 +65,17 @@ window.addEventListener('load', async () => { //gestionnaire d'événement à l'
     }) 
     
     
+    /* Activation des boutons d'ajout et de suppression */
+
+    const ajoutButton = document.getElementById("ajout-image"); // Récupère le bouton d'ajout d'images
+    ajoutButton.addEventListener("click", addPicture); // Ajoute un événement de clic sur le bouton d'ajout d'images qui appelle la fonction addPicture
+  
+});
     
-
-   //création de de la modale ajout Photo avec un formulaire
-    let ajoutPhotoBouton = document.getElementById("ajoutPhotoBtn");
-    ajoutPhotoBouton.innerHTML="";
-    let imgContainer = document.getElementById("imgContainer");
-    let imgFile = document.createElement("img");
-
-    let titrePhoto = document.getElementById("titrePhoto");
-    let imgErrorMessage = document.createElement("span");
-    let titleErrorMessage = document.createElement("span");
-
-    imgFile.setAttribute("id", "imgPreview");
-    imgFile.classList.add("photoAjoute");
-    imgErrorMessage.classList.add("imgErrorMessage"); // création des messages d'erreurs
-    titleErrorMessage.classList.add("titleErrorMessage");
-
-    imgContainer.appendChild(imgFile, imgErrorMessage); // ajout des éléments au parent imgContainer
-
     //ajouter une image en cliquant sur le btn AjoutPhotoBtn
-    imgFile.addEventListener("click", () => {
-        ajoutPhotoBouton.click();
-    });
-
-    /*valider l'image dans le projet
-    ajoutPhotoBouton.addEventListener("change", () => {
-        validateImageProject();
-    });*/
-
-    // function to get user file input
-    document.addEventListener('change', function (e) {
-        if (e.target.classList.contains('ajoutPhotoBouton')) {
-            if (validFileType(e.target.files[0] === '')) { }
-            else {
-                if (e.target.files[0].type === 'image/png' || e.target.files[0].type === 'image/jpeg') {
-                    if (e.target.files[0].size > 4000000) { alert('Photo trop volumineuse') }
-                    else {
-                        const imgUploaded = document.createElement('img');
-                        imgUploaded.src = URL.createObjectURL(e.target.files[0]);
-                        imgUploaded.className = 'img-uploaded';
-                        document.querySelector('.imgContainer').appendChild(imgUploaded);
-                    }
-                } else { alert('Format non accepté') }
-            }
-        }
-    })
+    let ajoutPhotoBouton = document.getElementById("ajoutPhotoBtn");
+    ajoutPhotoBouton.addEventListener("change", validateImageProject);
+    
 
     //valider le titre du nouveau projet ajouté
     titrePhoto.addEventListener("input", (e) => {
@@ -125,11 +92,7 @@ window.addEventListener('load', async () => { //gestionnaire d'événement à l'
 
    
 
-    /* Activation des boutons d'ajout et de suppression */
-
-    const ajoutButton = document.getElementById("ajout-image"); // Récupère le bouton d'ajout d'images
-    ajoutButton.addEventListener("click", addPicture); // Ajoute un événement de clic sur le bouton d'ajout d'images qui appelle la fonction addPicture
+  
 
 
-});
 

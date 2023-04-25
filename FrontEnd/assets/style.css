@@ -429,7 +429,14 @@ input[type="submit"]{
 .ajoutPhotoIcon{
 	font-size: 50px;
 	color: 	#B9C5CC;
+	
 }
+
+#imgPreview {
+	width: 100px;
+}
+
+
 
 #ajoutPhotoBtn{
 	font-family: 'Syne';
@@ -466,8 +473,3 @@ input[type="submit"]{
 	background-color:#A7A7A7;
 }
 
-.photoAjoute {
-	width: 20%;
-	display: block;
-
-}
