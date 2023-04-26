@@ -126,7 +126,7 @@ h2{
 	font-family: 'Syne';
 	font-weight: 700;
 	font-size: 30px;
-	color: #1D6154
+	color: #1D6154;
 }
 nav ul {
 	display: flex;
@@ -173,9 +173,13 @@ a{
 #introduction p {
 	margin-bottom: 0.5em;
 }
+
+.finintroduction{
+	margin: 5px 0 0 57px ;
+}
+
 #portfolio h2 {
 	text-align: center;
-	margin-bottom: 1em;
 }
 
 button {
@@ -195,6 +199,17 @@ button {
 .activated {
 	background-color:#1D6154;
 	color:white;
+}
+
+#divProjets{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 15px;
+}
+
+#modalEdition {
+	padding-left: 10px;
 }
 
 .gallery {
@@ -429,15 +444,23 @@ input[type="submit"]{
 .ajoutPhotoIcon{
 	font-size: 50px;
 	color: 	#B9C5CC;
+	
 }
 
-#ajoutPhotoBtn{
+#imgPreview {
+	width: 100px;
+}
+
+
+
+#ajoutPhotoLabel{
 	font-family: 'Syne';
 	font-weight: 700;
 	color: #306685;
 	background-color:#CBD6DC;
 	margin : 2em auto ;
 	width: 180px;
+	line-height: 50px;
 	text-align: center;
 	border-radius: 60px ;
 	display: flex;
@@ -462,12 +485,12 @@ input[type="submit"]{
 	color: black;
 }
 
-#validerBtn{
+.validerBtnFalse{
 	background-color:#A7A7A7;
 }
 
-.photoAjoute {
-	width: 20%;
-	display: block;
-
+.validerBtnTrue{
+	background-color: #1D6154;
+	color:#fff;
 }
+

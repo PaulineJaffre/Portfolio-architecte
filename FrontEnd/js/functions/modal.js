@@ -122,7 +122,9 @@ function addProjectToModal(project) {
     const deleteWork = document.createElement("i"); // Crée un élément <i> pour le bouton de suppression
 
     deleteWork.classList.add("deleteTrashIcon", "fa", "fa-solid", "fa-trash-can"); // Ajoute les classes CSS pour l'icône de poubelle
-    
+
+    deleteWork.dataset.id = project.id;
+
 
     figure.append(img, figcaption, categoryId, deleteWork); // Ajoute les éléments <img>, <figcaption>, <p> et <i> à l
 
@@ -182,20 +184,138 @@ function addCategoriesToModal (categories)  {
 
 };
 
-function validateTitleProject() {
-    if (titrePhoto.value === "") { // si le champ de titre reste vide, affichage d'un message d'erreur
-        titleErrorMessage.innerText = "Veuillez mettre un titre valide.";
-        titrePhoto.classList.add("inputError");
-    }
-    else { // sinon enlever le message d'erreur
-        titleErrorMessage.innerText = "";
-        titrePhoto.classList.remove("inputError");
+
+
+function validateImageProject() {
+    //création de de la modale ajout Photo avec un formulaire
+    let ajoutPhotoBouton = document.getElementById("ajoutPhotoBtn");
+    let ajoutPhotoLabel = document.getElementById("ajoutPhotoLabel");
+    let imgContainer = document.getElementById("imgContainer");
+
+    
+        //appel de la fonction pour vérifier si le fichier est sous un format valide
+        //Condition Si il n'y a pas de fichier
+        if (!ajoutPhotoBouton.files[0]) { 
+            return; //ne rien faire
+        }
+        //sinon
+        else {
+            //si le fichier est sous le bon format alors
+            if (validFileType(ajoutPhotoBouton.files[0])) {
+                //vérification de la taille du fichier
+                //si fichier trop volumineux
+                if (ajoutPhotoBouton.files[0].size > 4000000) {
+                    alert('Photo trop volumineuse');
+                }
+                //sinon
+                else {
+                    const imgFile = document.createElement('img');
+                    let imgErrorMessage = document.createElement("span");
+    
+                    imgFile.setAttribute("id", "imgPreview");
+                    imgFile.setAttribute('alt', 'Aperçu de l\'image sélectionnée');
+                    imgErrorMessage.classList.add("imgErrorMessage"); // création des messages d'erreurs
+    
+                    imgContainer.appendChild(imgFile); // ajout de l'élément imgFile au parent imgContainer
+    
+                    imgFile.src = URL.createObjectURL(ajoutPhotoBouton.files[0]); // création de l'url de la photo ajoutée
+                    imgFile.className = 'img-uploaded';
+                    
+                    // Invisibilité des autres éléments de l'image container quand on preview l'image uploadée
+                    ajoutPhotoLabel.style.display = "none";
+                    let ajoutPhotoIcon = document.querySelector("ajoutPhotoIcon");
+                    ajoutPhotoIcon.style.display = "none";
+                    let pContainer = document.getElementById("pContainer");
+                    pContainer.style.display = "none";
+
+                    // suppression des éléments d'erreur s'ils existent
+                    let imgErrorMessageExists = document.querySelector('.imgErrorMessage');
+                    
+                    if (imgErrorMessageExists) {
+                        imgErrorMessageExists.remove();
+                    }
+                }
+            } else {
+                alert('Format non accepté');
+        }
     }
 }
 
+//Listes des fichier accepté par l'input file
+const fileTypes = [
+    "image/jpeg",
+    "image/png",
+    "image/jpg"
+];
+//fonction de vérification si fichier correcte
+function validFileType(file) {
+    return fileTypes.includes(file.type);
+}
+
+
+
+function validateTitleProject() {
+    let inputTitle = document.getElementById("titrePhoto");
+    if (inputTitle.value === "") { // si le champ de titre reste vide, affichage d'un message d'erreur
+        titleErrorMessage.innerText = "Veuillez mettre un titre valide.";
+        inputTitle.classList.add("inputError");
+    }
+    else { // sinon enlever le message d'erreur
+        //titleErrorMessage.innerText = "";
+        inputTitle.classList.remove("inputError");
+    }
+}
+
+
+// Ajout d'un élément
+async function validateFormProject() {
+    // e.preventDefault();
+    
+    // Récupération des saisies pour la création du nouvel élément
+    const imgFile = document.getElementById("imgPreview").files[0];
+    // console.log(inputPicture);
+    const inputTitle = document.getElementById("titrePhoto").value;
+    // console.log(inputTitle);
+    const categoriePhotoContainer = document.getElementById("categoriePhoto").value;
+    // console.log(categoriePhotoContainer);
+
+    if (!inputTitle.value || !imgFile.files || !categoriePhotoContainer.value) {
+        alert("Veuillez remplir les champs du formulaire.");
+    }
+  
+    // Construction du formData à envoyer
+    const formData = new FormData();
+    formData.append("imgPreview", imgFile);
+    formData.append("titrePhoto", inputTitle);
+    formData.append("categoriePhoto", categoriePhotoContainer);
+  
+    // Appel de la fonction fetch avec toutes les informations nécessaires
+    let response = await fetch("http://localhost:5678/api/works", {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+      body: formData,
+    });
+    // console.log(response.status);
+    // console.log(result);
+  
+    // Conditions: Authentification, redirection et erreurs
+    if (response.status === 200 || 204) {
+        
+        getProject();
+    return clearForm();
+    } else if (response.status === 401 || 400) {
+      console.log("Action impossible");
+    };
+  };
+
+
+/*
 function validateFormProject() {
-    let ajoutPhotoBouton = document.querySelector("ajoutPhotoBtn");
-    let fileSize = ajoutPhotoBouton.files[0].size; // récupère la taille de l'image
+    let ajoutPhotoBouton = document.getElementById("ajoutPhotoBtn");
+
+    let fileSize = ajoutPhotoBouton.files.size; // récupère la taille de l'image
     const maxFileSize = 4 * 1024 * 1024; // détermine une taille maximum de 4MB
     
     if((ajoutPhotoBouton.files.length === 0) || (fileSize > maxFileSize) || (titrePhoto.value === "")) { // vérifie si la taille du fichier est trop grand, si l'encart est vide ou le titre est vide
@@ -215,74 +335,6 @@ function validateFormProject() {
     }
 }
 
-function validateImageProject() {
-
-    let inputFile = document.querySelector('.ajoutPhotoBouton')
-        //appel de la fonction pour vérifier si le fichier est sous un format valide
-        //Condition Si il n'y a pas de fichier
-        if (validFileType(inputFile.files[0] === '')) { //ne rien faire
-        }
-        //sinon
-        else {
-            //si le fichier est sous le bon format alors
-            if (inputFile.files[0].type === 'image/png' || inputFile.files[0].type === 'image/jpeg') {
-                //vérification de la taille du fichier
-                //si fichier trop volumineux
-                if (inputFile.files[0].size > 4000000) { alert('Photo trop volumineuse') } //alerte
-                //sinon
-                else {
-                    const imgUploaded = document.createElement('img');
-                    imgUploaded.src = URL.createObjectURL(inputFile.files[0]);
-                    imgUploaded.className = 'img-uploaded';
-                    document.querySelector('.imgContainer').appendChild(imgUploaded); //je créer la visualisation de l'image
-                    imageUploaded = true;
-                }
-            } else { alert('Format non accepté') } //sinon format non accepté
-        }
-    }
-
-//Listes des fichier accepté par l'input file
-const fileTypes = [
-    "image/jpeg",
-    "image/png"
-];
-//fonction de vérification si fichier correcte
-function validFileType(file) {
-    return fileTypes.includes(file.type);
-}
-    /*let ajoutPhotoBouton = document.querySelector("ajoutPhotoBtn");
-
-    let imgFile = document.querySelector("photoAjoute");
-    //imgFile.style.display= 'block'; // Affiche l'aperçu de l'image
-
-    let file= ajoutPhotoBouton.files[0]; // Récupère le fichier sélectionné
-
-    const inputContainer= document.querySelector("imgContainer");
-
-        if (file) {
-            imgPreview.src = URL.createObjectURL(file); // Crée une URL pour l'aperçu de l'image
-            inputContainer.classList.add("hide"); // Ajoute la classe "hide" au conteneur de l'image
-        
-            let fileSize = file.size; // Récupère la taille de l'image
-            //1MB = 1024, 4MB = 4096 * 1024
-            const maxFileSize = 4096 * 1024; // Définit la taille maximale autorisée pour l'image (ici, 4 Mo)
-        
-        // Vérifie si la taille de l'image dépasse la taille maximale autorisée
-        if (fileSize > maxFileSize) {
-            imgFile.remove(); // Supprime l'aperçu de l'image
-            inputContainer.classList.add("show"); // Ajoute la classe "show" au conteneur de l'image
-            imgErrorMessage.innerText = "La taille de l'image est trop grande"; // Affichage du message d'erreur si mauvaise taille
-        }
-        else {
-            imgErrorMessage.innerText = "";
-        }
-    }
-    //do not allow empty img src
-    else if (imgFile.src === "") {
-        imgFile.remove();
-        inputContainer.classList.add("show");
-    }
-}*/
 
 //function - envoi du formulaire à l'api
 async function sendForm(formData) {
@@ -290,7 +342,7 @@ async function sendForm(formData) {
         const res = await fetch("http://localhost:5678/api/works", {
             method: "POST",
             headers: {
-                "accept": "*/*",
+                "accept": "* /*",
                 "Authorization": `Bearer ${token}`
             },
             body: formData
@@ -306,7 +358,7 @@ async function sendForm(formData) {
     } catch (err) {
     console.error(err);
   }
-}
+} */
 
 function clearForm() {
     document.getElementById("ajoutPhoto-form");
