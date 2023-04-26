@@ -1,3 +1,4 @@
+
 window.addEventListener('load', function(){
     
     let isLoggedIn = sessionStorage.getItem("isLoggedIn");
@@ -30,6 +31,7 @@ document.querySelector('#logout').addEventListener('click' , function(event) {
 
 // MODALE 2 : AJOUT PHOTO
 window.addEventListener('load', async () => { //gestionnaire d'événement à l'objet window pour détecter quand la page a fini de charger
+
     // Étape 1 : Créez la page de présentation des travaux à partir du HTML existant
     await getCategory();
 
@@ -38,6 +40,7 @@ window.addEventListener('load', async () => { //gestionnaire d'événement à l'
     // Si l'utilisateur appuie sur la fèche alors retour à la modal d'éditon et supression initiale
     const arrowBack = document.getElementById("arrowBack"); // Définition de la flèche arrière
     arrowBack.addEventListener("click", backToBasicModal );// Ajoute un événement de clic pour revenir en arrière 
+
 
 
     // Appel de la fonction pour récupérer les projets depuis l'API
@@ -50,8 +53,10 @@ window.addEventListener('load', async () => { //gestionnaire d'événement à l'
     document.addEventListener('click', async function (e) {
         if (e.target.classList.contains('deleteTrashIcon')) {
             //récupération de l'id du target
+
             projectId = e.target.dataset.id;
             console.log(sessionStorage.getItem('token'));
+
             //Appel de l'API works avec l'id à supprimer en method DELETE
             await fetch("http://localhost:5678/api/works/" + projectId, {
                 method: 'DELETE',
@@ -74,7 +79,9 @@ window.addEventListener('load', async () => { //gestionnaire d'événement à l'
     }) 
     
     
+
     /* Activation des boutons d'ajout et de suppression */
+
 
     const ajoutButton = document.getElementById("ajout-image"); // Récupère le bouton d'ajout d'images
     ajoutButton.addEventListener("click", addPicture); // Ajoute un événement de clic sur le bouton d'ajout d'images qui appelle la fonction addPicture
@@ -82,9 +89,11 @@ window.addEventListener('load', async () => { //gestionnaire d'événement à l'
 });
     
     //ajouter une image en cliquant sur le btn AjoutPhotoBtn
+
     let ajoutPhotoBouton = document.getElementById("ajoutPhotoBtn");
     ajoutPhotoBouton.addEventListener("change", validateImageProject);
     
+
 
     //valider le titre du nouveau projet ajouté
     titrePhoto.addEventListener("input", (e) => {
@@ -115,9 +124,10 @@ window.addEventListener('load', async () => { //gestionnaire d'événement à l'
         validateFormProject();
     });
 
-   
+
 
   
+
 
 
 
