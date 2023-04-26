@@ -4,12 +4,15 @@ window.addEventListener('load', function(){
      let isLoggedOut = sessionStorage.getItem("isLoggedOut");
     console.log(isLoggedIn, isLoggedOut)
     if (isLoggedIn) {
+        //const divCategory = document.querySelector("filtres");
+        //divCategory.style.display="none";
         const isLoggedInList = document.querySelectorAll(".isLoggedIn");
          isLoggedInList.forEach(inList => {
         inList.style.display = "flex";
           });
     }
     if (isLoggedOut){
+        //divCategory.style.display="flex";
         const isLoggedOutList= document.querySelectorAll(".isLoggedOut");
           isLoggedOutList.forEach(outList => {
         outList.style.display ="none";
@@ -57,10 +60,16 @@ window.addEventListener('load', async () => { //gestionnaire d'événement à l'
                     "authorization": `Bearer ${sessionStorage.getItem('token')}`
                 }
             })
-            e.target.parentElement.remove(); //suppression du target
-            const listToDelete = document.querySelector('.categories');
-            listToDelete.innerHTML = "";
-            getProject(); //simulation réactualisation de la page 
+            
+            if (confirm("Voulez-vous supprimer l'image?") == true) {
+                e.target.parentElement.remove(); //suppression du target
+                const listToDelete = document.querySelector('.categories');
+                listToDelete.innerHTML = "";
+                getProject(); //simulation réactualisation de la page 
+            } else {
+                backToBasicModal;
+            }
+            
         }
     }) 
     
@@ -81,6 +90,22 @@ window.addEventListener('load', async () => { //gestionnaire d'événement à l'
     titrePhoto.addEventListener("input", (e) => {
         validateTitleProject(e);
     });
+
+    // Changement de couleur du bouton lorsque le user a rempli le formulaire
+    document.addEventListener('change', function(e){
+        if (e.target.classList.contains('validerBtn')){
+            const validerBtn = document.getElementById('validerBtn');
+            const userFile = document.getElementById('imgPreview');
+            const userTitle = document.getElementById('titrePhoto');
+            const userCategory = document.getElementById('categoriePhoto');
+            if (userFile === false || userTitle.value === ''|| userCategory.value === ''){
+                validerBtn.classList.add('validerBtnFalse');
+                //validerBtn.classList.remove('validerBtnTrue')
+            } else {
+                validerBtn.classList.add('validerBtnTrue');
+            }
+        }
+    })
 
     //validation du formulaire
     const submitPhoto = document.getElementById("validerBtn");
