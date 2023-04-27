@@ -214,7 +214,7 @@ function validateImageProject() {
                     
                     // Invisibilité des autres éléments de l'image container quand on preview l'image uploadée
                     ajoutPhotoLabel.style.display = "none";
-                    let ajoutPhotoIcon = document.querySelector("ajoutPhotoIcon");
+                    let ajoutPhotoIcon = document.getElementById("ajoutPhotoIcon");
                     ajoutPhotoIcon.style.display = "none";
                     let pContainer = document.getElementById("pContainer");
                     pContainer.style.display = "none";
@@ -263,20 +263,20 @@ async function validateFormProject() {
     // e.preventDefault();
     
     // Récupération des saisies pour la création du nouvel élément
-    const imgFile = document.getElementById("imgPreview").files[0];
-    // console.log(inputPicture);
-    const inputTitle = document.getElementById("titrePhoto").value;
+    const imgUploaded = document.querySelector("#img-uploaded").files[0];
+    // console.log(imgUploaded);
+    const inputTitle = document.getElementById("#titrePhoto").value;
     // console.log(inputTitle);
-    const categoriePhotoContainer = document.getElementById("categoriePhoto").value;
+    const categoriePhotoContainer = document.getElementById("#categoriePhoto").value;
     // console.log(categoriePhotoContainer);
 
-    if (!inputTitle.value || !imgFile.files || !categoriePhotoContainer.value) {
+    if (!inputTitle || !imgUploaded || !categoriePhotoContainer) {
         alert("Veuillez remplir les champs du formulaire.");
     }
   
     // Construction du formData à envoyer
     const formData = new FormData();
-    formData.append("imgPreview", imgFile);
+    formData.append("img-uploaded", imgUploaded);
     formData.append("titrePhoto", inputTitle);
     formData.append("categoriePhoto", categoriePhotoContainer);
   
@@ -284,7 +284,7 @@ async function validateFormProject() {
     let response = await fetch("http://localhost:5678/api/works", {
       method: "POST",
       headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
       },
       body: formData,
     });
@@ -302,58 +302,9 @@ async function validateFormProject() {
   };
 
 
-/*
-function validateFormProject() {
-    let ajoutPhotoBouton = document.getElementById("ajoutPhotoBtn");
-
-    let fileSize = ajoutPhotoBouton.files.size; // récupère la taille de l'image
-    const maxFileSize = 4 * 1024 * 1024; // détermine une taille maximum de 4MB
-    
-    if((ajoutPhotoBouton.files.length === 0) || (fileSize > maxFileSize) || (titrePhoto.value === "")) { // vérifie si la taille du fichier est trop grand, si l'encart est vide ou le titre est vide
-        alert("Veuillez rajouter une image et/ou un titre valide"); // display donc un message d'erreur
-    }
-    else {
-        let filtreContainer = document.getElementById("categoriePhoto"); // Récupère le conteneur des options de filtrage
-        const selectedIndex = filtreContainer.options.selectedIndex; // Récupère l'indice de l'option sélectionnée
-        let selectedIdOption = filtreContainer.options[selectedIndex].id; // Récupère l'id de l'option sélectionnée
-        
-        const formData = new FormData(); // création d'un formulaire object
-        formData.append("image", ajoutPhotoBouton.files[0]); // ajout de l'image au formulaire
-        formData.append("title", titrePhoto.value); // ajout du titre au formulaire
-        formData.append("category", selectedIdOption); //  ajout de l'id au formulaire
-
-        sendForm(formData); // envoi du nouveau formulaire rempli au serveur
-    }
-}
-
-
-//function - envoi du formulaire à l'api
-async function sendForm(formData) {
-    try {
-        const res = await fetch("http://localhost:5678/api/works", {
-            method: "POST",
-            headers: {
-                "accept": "* /*",
-                "Authorization": `Bearer ${token}`
-            },
-            body: formData
-        });
-        if (res.ok) {
-            const newProject = await res.json();
-            //reset form
-            clearForm();
-            //add work to modal and gallery
-            addProjectToModal(newProject);
-            project(newProject);
-        }
-    } catch (err) {
-    console.error(err);
-  }
-} */
 
 function clearForm() {
-    document.getElementById("ajoutPhoto-form");
-    ajoutPhoto-form.reset();
+    document.getElementById("ajoutPhoto-form").reset();
     imgFile.src = "";
     imgFile.style.visibility = "hidden";
     inputContainer.style.display = "inline-block";
