@@ -68,13 +68,14 @@
 					<h2>Ajout photo</h2>
 					<form id="ajoutPhoto-form" novalidate >
 						<div id="imgContainer" class="imgContainer">
-							<i class="ajoutPhotoIcon fa fa-solid fa-image" style="display: block"></i>
+							<i id="ajoutPhotoIcon" class="fa fa-solid fa-image" style="display: block"></i>
 							<label for="ajoutPhotoBtn" id="ajoutPhotoLabel" class="photoBouton"> + Ajouter photo</label>
 							<input type="file" name="ajoutPhotoBouton" id="ajoutPhotoBtn" style="display:none;" accept=".png, .jpg, .jpeg">
 							
 							<p id="pContainer" style="display: block">jpg, png: 4mo max</p>
 						</div>						
 						<label for="titrePhoto">Titre</label>
+						<span id="titleErrorMessage"></span>
 						<input id="titrePhoto" type="text" placeholder="" name="titrePhoto">
 						<label for="categoriePhoto">Catégorie</label>
 						<select name="categoriePhoto" id="categoriePhoto">						

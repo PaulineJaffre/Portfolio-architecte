@@ -21,7 +21,13 @@ window.addEventListener('load', function(){
     }
 });
 
-document.querySelector('#logout').addEventListener('click' , function(event) {
+const fileInput = document.getElementById('ajoutPhotoBtn');
+fileInput.onchange = () => {
+  const selectedFile = fileInput.files[0];
+  console.log(selectedFile);
+}
+
+document.getElementById('logout').addEventListener('click' , function(event) {
     event.preventDefault();
 
     console.log("se déconnecter")
@@ -68,9 +74,9 @@ window.addEventListener('load', async () => { //gestionnaire d'événement à l'
             
             if (confirm("Voulez-vous supprimer l'image?") == true) {
                 e.target.parentElement.remove(); //suppression du target
-                const listToDelete = document.querySelector('.categories');
-                listToDelete.innerHTML = "";
-                getProject(); //simulation réactualisation de la page 
+                //const figureGallery = document.querySelector(".figureGallery");
+                //figureGallery.id = e.target.dataset.id;
+                //figureGallery.remove();
             } else {
                 backToBasicModal;
             }
