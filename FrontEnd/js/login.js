@@ -1,5 +1,6 @@
 //Étape 2 : Codez la page de connexion
 
+
 const form = document.querySelector("#login-form");
 
 form.addEventListener("submit", async (event) => {
