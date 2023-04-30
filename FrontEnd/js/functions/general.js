@@ -32,6 +32,7 @@ function getProject(event){
                     div.classList.add(["cartesBody"]);
                     // ajout des images
                     const figureCaption = document.createElement("figcaption");
+                    figureCaption.className="figureGallery";
                     const image = document.createElement("img");
                     image.src = project.imageUrl;
                     figureCaption.append(image);

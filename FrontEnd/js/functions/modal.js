@@ -263,11 +263,11 @@ async function validateFormProject() {
     // e.preventDefault();
     
     // Récupération des saisies pour la création du nouvel élément
-    const imgUploaded = document.querySelector("#img-uploaded").files[0];
+    const imgUploaded = document.getElementById("ajoutPhotoBtn").files[0];
     // console.log(imgUploaded);
-    const inputTitle = document.getElementById("#titrePhoto").value;
+    const inputTitle = document.getElementById("titrePhoto").name;
     // console.log(inputTitle);
-    const categoriePhotoContainer = document.getElementById("#categoriePhoto").value;
+    const categoriePhotoContainer = document.getElementById("categoriePhoto").value;
     // console.log(categoriePhotoContainer);
 
     if (!inputTitle || !imgUploaded || !categoriePhotoContainer) {
@@ -276,18 +276,21 @@ async function validateFormProject() {
   
     // Construction du formData à envoyer
     const formData = new FormData();
-    formData.append("img-uploaded", imgUploaded);
-    formData.append("titrePhoto", inputTitle);
-    formData.append("categoriePhoto", categoriePhotoContainer);
+    formData.append("image", imgUploaded);
+    formData.append("title", inputTitle);
+    formData.append("category", categoriePhotoContainer);
   
     // Appel de la fonction fetch avec toutes les informations nécessaires
     let response = await fetch("http://localhost:5678/api/works", {
       method: "POST",
       headers: {
-        Authorization: "Bearer " + sessionStorage.getItem("token"),
+        'Content-Type': 'multipart/form-data',
+        'Authorization': "Bearer " + sessionStorage.getItem("token"),
       },
       body: formData,
-    });
+    }).then(res => res.json())
+    .then(data => console.log(data))
+    .then(error => console.log(error));
     // console.log(response.status);
     // console.log(result);
   
