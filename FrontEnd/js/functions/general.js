@@ -110,4 +110,4 @@ async function getCategory() {
               // et on ajoute cette class active sur le bouton cliqué
         });
     });   
-
+}
