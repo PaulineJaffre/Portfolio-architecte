@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
 	<meta charset="UTF-8">
 	<title>Sophie Bluel - Architecte d'intérieur</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap"
+		rel="stylesheet">
 	<script src="https://kit.fontawesome.com/3dc7b8a11e.js" crossorigin="anonymous"></script>
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	
+
 </head>
+
 <body>
 	<aside>
 		<nav id="navEdition" class="isLoggedIn">
@@ -20,83 +23,95 @@
 			<li class="publier">publier les changements</li>
 		</nav>
 	</aside>
-<header>
-	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
-	<nav>
-		<ul>
-			<li>projets</li>
-			<li>contact</li>
-			<li class="isLoggedOut"><a href="login.html">login</a></li>
-			<li class="isLoggedIn"><a href="#" id="logout">logout</a></li>
-			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
-		</ul>
-	</nav>
-</header>
-<main>
-	<section id="introduction">
-		<figure>
-			<img src="./assets/images/sophie-bluel.png" alt="">
-			<p class="modeedition finintroduction isLoggedIn"><i class="fa fa-sharp fa-light fa-pen-to-square"></i>Modifier</p>
-		</figure>
+	<header>
+		<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
+		<nav>
+			<ul>
+				<li>projets</li>
+				<li>contact</li>
+				<li class="isLoggedOut"><a href="login.html">login</a></li>
+				<li class="isLoggedIn"><a href="#" id="logout">logout</a></li>
+				<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
+			</ul>
+		</nav>
+	</header>
+	<main>
+		<section id="introduction">
+			<figure>
+				<img src="./assets/images/sophie-bluel.png" alt="">
+				<p class="modeedition finintroduction isLoggedIn"><i
+						class="fa fa-sharp fa-light fa-pen-to-square"></i>Modifier</p>
+			</figure>
 
-		<article>
-			<p class="modeedition isLoggedIn"><i class="fa fa-sharp fa-light fa-pen-to-square"></i>Modifier</p>
-			<h2>Designer d'espace</h2>
-			<p>Je raconte votre histoire, je valorise vos idées. Je vous accompagne de la conception à la livraison finale du chantier.</p>
-			<p>Chaque projet sera étudié en commun, de façon à mettre en valeur les volumes, les matières et les couleurs dans le respect de l’esprit des lieux et le choix adapté des matériaux. Le suivi du chantier sera assuré dans le souci du détail, le respect du planning et du budget.</p>
-			<p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG, décorateur(trice)</p>
-		</article>
-	</section>
+			<article>
+				<p class="modeedition isLoggedIn"><i class="fa fa-sharp fa-light fa-pen-to-square"></i>Modifier</p>
+				<h2>Designer d'espace</h2>
+				<p>Je raconte votre histoire, je valorise vos idées. Je vous accompagne de la conception à la livraison
+					finale du chantier.</p>
+				<p>Chaque projet sera étudié en commun, de façon à mettre en valeur les volumes, les matières et les
+					couleurs dans le respect de l’esprit des lieux et le choix adapté des matériaux. Le suivi du
+					chantier sera assuré dans le souci du détail, le respect du planning et du budget.</p>
+				<p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG,
+					décorateur(trice)</p>
+			</article>
+		</section>
 
-	<section id="portfolio">
-		<div id="divProjets">
-			<h2>Mes Projets</h2>
-			<a href="modal1" id="modalEdition" class=" modeEdition openModal isLoggedIn"><i class="fa fa-sharp fa-light fa-pen-to-square"></i>Mode édition</a>		
-		</div>
-		<aside id="modal1" class="modal" aria-hidden="true" role="dialog" style="display: none">
-			<div class="modalContent js-modal-stop">
-				<span class="closeModal"><i class="fa-solid fa-xmark"></i></span>
-				<div class="modalPhoto">
-					<h2>Galerie photo</h2>
-					<div class="modalGallery"></div>
-					<hr>
-					<button id="ajout-image">Ajouter une photo</button>
-					<button id="supprimer-gallery">Supprimer la galerie</button>
-				</div>	
-				<div class="modalAjout" style="display: none">
-					<span id="arrowBack"><i class="fa fa-light fa-arrow-left"></i></span>
-					<h2>Ajout photo</h2>
-					<form id="ajoutPhoto-form" novalidate >
-						<div id="imgContainer" class="imgContainer">
-							<i id="ajoutPhotoIcon" class="fa fa-solid fa-image" style="display: block"></i>
-							<label for="ajoutPhotoBtn" id="ajoutPhotoLabel" class="photoBouton"> + Ajouter photo</label>
-							<input type="file" name="ajoutPhotoBouton" id="ajoutPhotoBtn" style="display:none;" accept=".png, .jpg, .jpeg">
-							
-							<p id="pContainer" style="display: block">jpg, png: 4mo max</p>
-						</div>						
-						<label for="titrePhoto">Titre</label>
-						<span id="titleErrorMessage"></span>
-						<input id="titrePhoto" type="text" placeholder="" name="titrePhoto">
-						<label for="categoriePhoto">Catégorie</label>
-						<select name="categoriePhoto" id="categoriePhoto">						
-						<hr>
-						<input type="submit" value="valider" id="validerBtn" class="btn btn-default">
-						
-					</form>
-				</div>
+		<section id="portfolio">
+			<div id="divProjets">
+				<h2>Mes Projets</h2>
+				<a href="modal1" id="modalEdition" class=" modeEdition openModal isLoggedIn"><i
+						class="fa fa-sharp fa-light fa-pen-to-square"></i>Mode édition</a>
 			</div>
-		</aside>
-	
+			<aside id="modal1" class="modal" aria-hidden="true" role="dialog" style="display: none">
+				<div class="modalContent js-modal-stop">
+					<span class="closeModal"><i class="fa-solid fa-xmark"></i></span>
+					<div class="modalPhoto">
+						<h2>Galerie photo</h2>
+						<div class="modalGallery"></div>
+						<hr>
+						<button id="ajout-image">Ajouter une photo</button>
+						<button id="supprimer-gallery">Supprimer la galerie</button>
+					</div>
+					<div class="modalAjout" style="display: none">
+						<span id="arrowBack"><i class="fa fa-light fa-arrow-left"></i></span>
+						<h2>Ajout photo</h2>
+						<form id="ajoutPhoto-form" enctype="multipart/form-data" novalidate>
+							<div id="imgContainer" class="imgContainer">
+								<i id="ajoutPhotoIcon" class="fa fa-solid fa-image" style="display: block"></i>
+								<label for="ajoutPhotoBtn" id="ajoutPhotoLabel" class="photoBouton"> + Ajouter
+									photo</label>
+								<input type="file" name="ajoutPhotoBouton" id="ajoutPhotoBtn" style="display:none;"
+									accept=".png, .jpg, .jpeg">
+								<span id="errorFile" class="error"></span>
 
-		<!--Catégories-->
+								<p id="pContainer" style="display: block">jpg, png: 4mo max</p>
+							</div>
+							<label for="titrePhoto">Titre</label>
+							<span id="titleErrorMessage" class="error"></span>
+							<input id="titrePhoto" type="text" placeholder="" name="titrePhoto">
+							
+							<label for="categoriePhoto">Catégorie</label>
+							<select name="categoriePhoto" id="categoriePhoto">
+							</select>
+							
+							<hr>
+							<input type="submit" value="valider" id="validerBtn" class="btn btn-default">
 
-		<div class="categories" style="display:flex">
-			<!-- Création des filtres-->
-		</div>
+						</form>
+					</div>
+				</div>
+			</aside>
 
-		  <!--Galerie-->
-		<div class="gallery">
-			<!--	<figure> 
+
+			<!--Catégories-->
+
+			<div class="categories" style="display:flex">
+				<!-- Création des filtres-->
+			</div>
+
+			<!--Galerie-->
+			<div class="gallery">
+				<!--	<figure> 
 				<img src="assets/images/abajour-tahina.png" alt="Abajour Tahina">
 				<figcaption>Abajour Tahina</figcaption>
 			</figure>
@@ -140,34 +155,35 @@
 				<img src="assets/images/hotel-first-arte-new-delhi.png" alt="Hotel First Arte - New Delhi">
 				<figcaption>Hotel First Arte - New Delhi</figcaption>
 			</figure> -->
-		</div>
-	</section>
-	<section id="contact">
-		<h2>Contact</h2>
-		<p>Vous avez un projet ? Discutons-en !</p>
-		<form id="contactform" action="#" method="post">
-			<label for="name">Nom</label>
-			<input type="text" name="name" id="name">
-			<label for="email">Email</label>
-			<input type="email" name="email" id="email">
-			<label for="message">Message</label>
-			<textarea name="message" id="message" cols="30" rows="10"></textarea>
-			<input type="submit" value="Envoyer">
-		</form>
-	</section>
-</main>
+			</div>
+		</section>
+		<section id="contact">
+			<h2>Contact</h2>
+			<p>Vous avez un projet ? Discutons-en !</p>
+			<form id="contactform" action="#" method="post">
+				<label for="name">Nom</label>
+				<input type="text" name="name" id="name">
+				<label for="email">Email</label>
+				<input type="email" name="email" id="email">
+				<label for="message">Message</label>
+				<textarea name="message" id="message" cols="30" rows="10"></textarea>
+				<input type="submit" value="Envoyer">
+			</form>
+		</section>
+	</main>
 
-<footer>
-	<nav>
-		<ul>
-			<li>Mentions Légales</li>
-		</ul>
-	</nav>
-</footer>
-<script src="js/functions/general.js"></script>
-<script src="js/functions/modal.js"></script>
-<script src="js/functions/connexion.js"></script>
-<script src="js/index.js"></script>
+	<footer>
+		<nav>
+			<ul>
+				<li>Mentions Légales</li>
+			</ul>
+		</nav>
+	</footer>
+	<script src="js/functions/general.js"></script>
+	<script src="js/functions/modal.js"></script>
+	<script src="js/functions/connexion.js"></script>
+	<script src="js/index.js"></script>
 
 </body>
+
 </html>
