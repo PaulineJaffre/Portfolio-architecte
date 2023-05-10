@@ -1,6 +1,6 @@
 function stopPropagation(e) { //empêcher la propagation des événements
     e.stopPropagation()
-} 
+}
 
 /* MODALE */
 
@@ -16,9 +16,7 @@ let previouslyFocusedElement = null //stockera l'élément qui avait le focus av
 
 function openModal(e) {
     e.preventDefault()/*tant que le user n'aura pas cliqué, la modale ne s'ouvrira pas */
-    
     modal = document.getElementById(e.target.getAttribute('href'))
-    
     const focusableSelector = "button, a, input, textarea";//chaîne de caractères qui spécifie les types d'éléments qui peuvent être mis au point dans la modale
     const focusables = Array.from(modal.querySelectorAll(focusableSelector)); //liste de tous les éléments focusables de la modale, créée en utilisant Array.from et querySelectorAll sur modal
     previouslyFocusedElement = document.querySelector(':focus'); //trouver l'élément qui avait le focus avant l'ouverture de la modale.
@@ -26,11 +24,8 @@ function openModal(e) {
     focusables[0].focus();//focus sur le premier élément focusable de la modale
     modal.removeAttribute('aria-hidden'); // rendre la modale visible
     modal.setAttribute('aria-modal', 'true'); //indique que c'est une boîte de dialogue modale
-
- 
     modal.querySelector('.closeModal').addEventListener('click', closeModal); /* ajout d'un gestionnaire d'événement de clic sur le bouton de fermeture de la modale pour la fermer */
     modal.querySelector('.closeModal').addEventListener('click', stopPropagation);/* ajout d'un gestionnaire d'événement de clic sur le bouton de fermeture de la modale pour éviter la propagation de l'événement de clic */
-
 };
 
 /*Création de la constante closeModal et c'est une fonction qui prend en paramètre l'evenement.*/
@@ -69,13 +64,14 @@ function escapeModal(e) {
 }
 
 
- /*Création de la constante openModal et c'est une fonction qui prend en paramètre l'evenement.*/ 
-    // Ajouter un gestionnaire d'événement de clic au bouton d'ouverture
-document.querySelectorAll('.openModal').forEach(a => {  
+
+/*Création de la constante openModal et c'est une fonction qui prend en paramètre l'evenement.*/
+// Ajouter un gestionnaire d'événement de clic au bouton d'ouverture
+document.querySelectorAll('.openModal').forEach(a => {
     a.addEventListener('click', openModal)
 });
 
-window.addEventListener('keydown', function(e) {
+window.addEventListener('keydown', function (e) {
     escapeModal(e);
 })
 
@@ -88,8 +84,8 @@ async function getProjectModal() {
         }).then(function (projects) {
             projects.forEach(function (project) { // Parcourt tous les projets récupérés
                 addProjectToModal(project); // Appelle la fonction addProjectToModal en lui passant chaque projet en argument
-            });   
-        });    
+            });
+        });
 }
 
 
@@ -156,6 +152,7 @@ async function deleteProjectWithConfirmation(e) {
 
 
 
+
 // Cette fonction ouvre la modal pour ajouter une image.
 function addPicture(e) {
     e.preventDefault();
@@ -172,32 +169,29 @@ async function getCategoriesModal() {
 
     fetch("http://localhost:5678/api/categories", {
         method: 'get',
-            headers: {
-                'accept': 'application/json'
-            }
-        })
+        headers: {
+            'accept': 'application/json'
+        }
+    })
         .then(function (response) {
             return response.json();
         }).then(function (category) {
             addCategoriesToModal(category);
-    });
-    
-   
-    
+        });
 
+ //Ajout des catégories au DOM
+ function addCategoriesToModal(categories) {
+        const categoriePhotoContainer = document.getElementById("categoriePhoto");
 
-//Ajout des catégories au DOM
-function addCategoriesToModal (categories)  {
-    const categoriePhotoContainer = document.getElementById("categoriePhoto");
+        categories.forEach(function (category) {
+            const filtres = document.createElement("option"); // création de la constante filtres et de sa classe "option"
+            filtres.dataset.id = category.id;
+            filtres.value = category.name; // la valeur de la const filtres correspond aux noms des catégories de l'api
+            filtres.innerHTML = category.name;
+            categoriePhotoContainer.appendChild(filtres);
+        });
+    };
 
-    categories.forEach(function(category) {
-        const filtres = document.createElement("option"); // création de la constante filtres et de sa classe "option"
-        filtres.dataset.id = category.id;
-        filtres.value = category.name; // la valeur de la const filtres correspond aux noms des catégories de l'api
-        filtres.innerHTML= category.name;
-        categoriePhotoContainer.appendChild(filtres);
-    });
-};
 
 };
 
@@ -209,51 +203,50 @@ function validateImageProject() {
     let ajoutPhotoLabel = document.getElementById("ajoutPhotoLabel");
     let imgContainer = document.getElementById("imgContainer");
 
-    
-        //appel de la fonction pour vérifier si le fichier est sous un format valide
-        //Condition Si il n'y a pas de fichier
-        if (ajoutPhotoBouton.files.length == 0) { 
-            return; //ne rien faire
-        }
-        //sinon
-        else {
-            //si le fichier est sous le bon format alors
-            if (validFileType(ajoutPhotoBouton.files[0].type)) {
-                //vérification de la taille du fichier
-                //si fichier trop volumineux
-                if (ajoutPhotoBouton.files[0].size > 4000000) {
-                    alert('Photo trop volumineuse');
-                }
-                //sinon
-                else {
-                    const imgFile = document.createElement('img');
-                    let imgErrorMessage = document.createElement("span");
-    
-                    imgFile.setAttribute("id", "imgPreview");
-                    imgFile.setAttribute('alt', 'Aperçu de l\'image sélectionnée');
-                    imgErrorMessage.classList.add("imgErrorMessage"); // création des messages d'erreurs
-    
-                    imgContainer.appendChild(imgFile); // ajout de l'élément imgFile au parent imgContainer
-    
-                    imgFile.src = URL.createObjectURL(ajoutPhotoBouton.files[0]); // création de l'url de la photo ajoutée
-                    imgFile.className = 'img-uploaded';
-                    
-                    // Invisibilité des autres éléments de l'image container quand on preview l'image uploadée
-                    ajoutPhotoLabel.style.display = "none";
-                    let ajoutPhotoIcon = document.getElementById("ajoutPhotoIcon");
-                    ajoutPhotoIcon.style.display = "none";
-                    let pContainer = document.getElementById("pContainer");
-                    pContainer.style.display = "none";
+    //appel de la fonction pour vérifier si le fichier est sous un format valide
+    //Condition Si il n'y a pas de fichier
+    if (ajoutPhotoBouton.files.length == 0) {
+        return; //ne rien faire
+    }
+    //sinon
+    else {
+        //si le fichier est sous le bon format alors
+        if (validFileType(ajoutPhotoBouton.files[0].type)) {
+            //vérification de la taille du fichier
+            //si fichier trop volumineux
+            if (ajoutPhotoBouton.files[0].size > 4000000) {
+                alert('Photo trop volumineuse');
+            }
+            //sinon
+            else {
+                const imgFile = document.createElement('img');
+                let imgErrorMessage = document.createElement("span");
 
-                    // suppression des éléments d'erreur s'ils existent
-                    let imgErrorMessageExists = document.querySelector('.imgErrorMessage');
-                    
-                    if (imgErrorMessageExists) {
-                        imgErrorMessageExists.remove();
-                    }
+                imgFile.setAttribute("id", "imgPreview");
+                imgFile.setAttribute('alt', 'Aperçu de l\'image sélectionnée');
+                imgErrorMessage.classList.add("imgErrorMessage"); // création des messages d'erreurs
+
+                imgContainer.appendChild(imgFile); // ajout de l'élément imgFile au parent imgContainer
+
+                imgFile.src = URL.createObjectURL(ajoutPhotoBouton.files[0]); // création de l'url de la photo ajoutée
+                imgFile.className = 'img-uploaded';
+
+                // Invisibilité des autres éléments de l'image container quand on preview l'image uploadée
+                ajoutPhotoLabel.style.display = "none";
+                let ajoutPhotoIcon = document.getElementById("ajoutPhotoIcon");
+                ajoutPhotoIcon.style.display = "none";
+                let pContainer = document.getElementById("pContainer");
+                pContainer.style.display = "none";
+
+                // suppression des éléments d'erreur s'ils existent
+                let imgErrorMessageExists = document.querySelector('.imgErrorMessage');
+
+                if (imgErrorMessageExists) {
+                    imgErrorMessageExists.remove();
                 }
-            } else {
-                alert('Format non accepté');
+            }
+        } else {
+            alert('Format non accepté');
         }
     }
 }
@@ -264,6 +257,7 @@ const fileTypes = [
     "image/png",
     "image/jpg"
 ];
+
 //fonction de vérification si fichier correcte
 function validFileType(type) {
     if (fileTypes.indexOf(type) > -1) {
@@ -271,14 +265,14 @@ function validFileType(type) {
     } else {
         return false;
     }
+
 }
-
-
 
 function validateTitleProject() {
     let inputTitle = document.getElementById("titrePhoto");
     let errors = false;
-    if (inputTitle.value === "") { // si le champ de titre reste vide, affichage d'un message d'erreur
+
+    if (inputTitle.value == "") { // si le champ de titre reste vide, affichage d'un message d'erreur
         titleErrorMessage.innerText = "Veuillez mettre un titre valide.";
         inputTitle.classList.add("inputError");
         errors = true;
@@ -305,15 +299,15 @@ function validateFileProject() {
     else {
         errors = false;
     }
-
     return errors;
+
 }
 
 
 // Ajout d'un élément
 async function validateFormProject() {
     // e.preventDefault();
-    
+
     // Récupération des saisies pour la création du nouvel élément
     const imgUploaded = document.getElementById("ajoutPhotoBtn").files[0];
     // console.log(imgUploaded);
@@ -323,15 +317,18 @@ async function validateFormProject() {
     const categoriePhotoId = selectCategorie.options[selectCategorie.selectedIndex].dataset.id;
     // console.log(selectCategorie);
 
+
     // validation du formulaire 
     validationTitle = validateTitleProject();
     validationFile = validateFileProject();
 
     console.log(validationTitle, validationFile, validationFile === false);
 
+
     // s'il n'y a pas d'erreur sur le formulaire, c'est à dire que les fonctions renvoient faux
 
     if (validationFile === false && validationTitle === false) {
+
     
     // Construction du formData à envoyer
     const formData = new FormData();
@@ -366,6 +363,7 @@ async function validateFormProject() {
 
 function clearForm() {
     document.getElementById("ajoutPhoto-form").reset();
+
     const userFile = document.getElementById('ajoutPhotoBtn');
     const imgUploaded = document.getElementById('imgPreview');
     imgUploaded.remove();
@@ -390,6 +388,7 @@ function changeBtnColor() {
     } else {
         validerBtn.classList.add('.validerBtnTrue');
     }
+
 }
 
 
