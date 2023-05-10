@@ -97,6 +97,12 @@ body {
 	display: none;
 }
 
+.error {
+	display: inline-block;
+	color: red;
+	font-weight: bold;
+}
+
 header {
 	display: flex;
 	justify-content: space-between;
@@ -449,6 +455,7 @@ input[type="submit"]{
 
 #imgPreview {
 	width: 100px;
+	display: block;
 }
 
 
