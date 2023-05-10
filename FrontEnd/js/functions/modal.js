@@ -14,12 +14,9 @@ const focusableSelector = "button, a, input, textarea" //chaîne de caractères 
 let focusables = [] //stockera tous les éléments focusables de la modale
 let previouslyFocusedElement = null //stockera l'élément qui avait le focus avant l'ouverture de la modale.
 
-
 function openModal(e) {
     e.preventDefault()/*tant que le user n'aura pas cliqué, la modale ne s'ouvrira pas */
-
     modal = document.getElementById(e.target.getAttribute('href'))
-
     const focusableSelector = "button, a, input, textarea";//chaîne de caractères qui spécifie les types d'éléments qui peuvent être mis au point dans la modale
     const focusables = Array.from(modal.querySelectorAll(focusableSelector)); //liste de tous les éléments focusables de la modale, créée en utilisant Array.from et querySelectorAll sur modal
     previouslyFocusedElement = document.querySelector(':focus'); //trouver l'élément qui avait le focus avant l'ouverture de la modale.
@@ -27,11 +24,8 @@ function openModal(e) {
     focusables[0].focus();//focus sur le premier élément focusable de la modale
     modal.removeAttribute('aria-hidden'); // rendre la modale visible
     modal.setAttribute('aria-modal', 'true'); //indique que c'est une boîte de dialogue modale
-
-
     modal.querySelector('.closeModal').addEventListener('click', closeModal); /* ajout d'un gestionnaire d'événement de clic sur le bouton de fermeture de la modale pour la fermer */
     modal.querySelector('.closeModal').addEventListener('click', stopPropagation);/* ajout d'un gestionnaire d'événement de clic sur le bouton de fermeture de la modale pour éviter la propagation de l'événement de clic */
-
 };
 
 /*Création de la constante closeModal et c'est une fonction qui prend en paramètre l'evenement.*/
@@ -48,15 +42,15 @@ function closeModal(e) {
     modal = null
 };
 
-// Navigation inclusive dans la modale par le clavier //
-function focusInModal(e) {
+ // Navigation inclusive dans la modale par le clavier //
+ function focusInModal(e) {
     e.preventDefault()
     let index = focusables.findIndex(f => f === modal.querySelector(':focus'))
-    if (e.shiftKey === true) { //gestionnaire d'événements pour la touche "Tab" qui permet à l'utilisateur de naviguer dans la modale avec le clavier
-        index = (index - 1 + focusables.length) % focusables.length;
-    } else {
-        index = (index + 1) % focusables.length;
-    }
+        if (e.shiftKey === true) { //gestionnaire d'événements pour la touche "Tab" qui permet à l'utilisateur de naviguer dans la modale avec le clavier
+            index = (index - 1 + focusables.length) % focusables.length;
+        } else {
+            index = (index + 1) % focusables.length;
+        }
     focusables[index].focus()
 }
 
@@ -70,13 +64,13 @@ function escapeModal(e) {
 }
 
 
+
 /*Création de la constante openModal et c'est une fonction qui prend en paramètre l'evenement.*/
 // Ajouter un gestionnaire d'événement de clic au bouton d'ouverture
 document.querySelectorAll('.openModal').forEach(a => {
-
     a.addEventListener('click', openModal)
-
 });
+
 window.addEventListener('keydown', function (e) {
     escapeModal(e);
 })
@@ -85,7 +79,7 @@ window.addEventListener('keydown', function (e) {
 //récupère les projets depuis l'API et les ajoute à la modal
 async function getProjectModal() {
     fetch("http://localhost:5678/api/works")
-        .then(function (response) {
+        .then(function (response) { 
             return response.json();
         }).then(function (projects) {
             projects.forEach(function (project) { // Parcourt tous les projets récupérés
@@ -115,27 +109,46 @@ function addProjectToModal(project) {
     figcaption.alt = project.title; // Définit l'attribut alt de l'élément <figcaption> avec le titre du projet
     figcaption.textContent = "éditer"; // Ajoute le texte "Editer" à l'élément <figcaption>
 
-
     const categoryId = document.createElement("p"); // Crée un élément <p> pour stocker l'ID de la catégorie
     categoryId.src = project.categoryId; // Définit l'attribut src de l'élément <p> avec l'ID de la catégorie du projet
 
-
     const deleteWork = document.createElement("i"); // Crée un élément <i> pour le bouton de suppression
-
     deleteWork.classList.add("deleteTrashIcon", "fa", "fa-solid", "fa-trash-can"); // Ajoute les classes CSS pour l'icône de poubelle
-
     deleteWork.dataset.id = project.id;
-
 
     figure.append(img, figcaption, categoryId, deleteWork); // Ajoute les éléments <img>, <figcaption>, <p> et <i> à l
 
     modalGallery.append(figure);
-
-
-
-
-
+    
 }
+
+
+//Suppression des projets
+
+async function deleteProjectWithConfirmation(e) {
+        if (e.target.classList.contains('deleteTrashIcon')) {
+            const projectId = e.target.dataset.id;
+            console.log(sessionStorage.getItem('token'));
+            const response = await fetch("http://localhost:5678/api/works/" + projectId, {
+                method: 'DELETE',
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8",
+                    "authorization": `Bearer ${sessionStorage.getItem('token')}`
+                }
+            });
+            if (response.ok) {
+                if (confirm("Voulez-vous supprimer l'image?") == true) {
+                    e.target.parentElement.remove(); //suppression du target
+                    document.querySelector(".bouton-tous").click();
+                } else {
+                    backToBasicModal;
+                }
+            } else {
+                console.log("Une erreur s'est produite lors de la suppression du projet.");
+            }
+        }
+ };
+
 
 
 
@@ -166,12 +179,8 @@ async function getCategoriesModal() {
             addCategoriesToModal(category);
         });
 
-
-
-
-
-    //Ajout des catégories au DOM
-    function addCategoriesToModal(categories) {
+ //Ajout des catégories au DOM
+ function addCategoriesToModal(categories) {
         const categoriePhotoContainer = document.getElementById("categoriePhoto");
 
         categories.forEach(function (category) {
@@ -183,6 +192,7 @@ async function getCategoriesModal() {
         });
     };
 
+
 };
 
 
@@ -192,7 +202,6 @@ function validateImageProject() {
     let ajoutPhotoBouton = document.getElementById("ajoutPhotoBtn");
     let ajoutPhotoLabel = document.getElementById("ajoutPhotoLabel");
     let imgContainer = document.getElementById("imgContainer");
-
 
     //appel de la fonction pour vérifier si le fichier est sous un format valide
     //Condition Si il n'y a pas de fichier
@@ -249,7 +258,7 @@ const fileTypes = [
     "image/jpg"
 ];
 
-
+//fonction de vérification si fichier correcte
 function validFileType(type) {
     if (fileTypes.indexOf(type) > -1) {
         return true;
@@ -288,10 +297,8 @@ function validateFileProject() {
         errors = true;
     }
     else {
-        document.getElementById("errorFile").innerHTML = "";
         errors = false;
     }
-
     return errors;
 
 }
@@ -308,59 +315,81 @@ async function validateFormProject() {
     // console.log(inputTitle);
     const selectCategorie = document.getElementById("categoriePhoto");
     const categoriePhotoId = selectCategorie.options[selectCategorie.selectedIndex].dataset.id;
-    // console.log(categoriePhotoContainer);
+    // console.log(selectCategorie);
+
 
     // validation du formulaire 
     validationTitle = validateTitleProject();
     validationFile = validateFileProject();
 
-    console.log(validationTitle, validationFile, validationFile === false,);
+    console.log(validationTitle, validationFile, validationFile === false);
+
 
     // s'il n'y a pas d'erreur sur le formulaire, c'est à dire que les fonctions renvoient faux
 
     if (validationFile === false && validationTitle === false) {
 
-        // Construction du formData à envoyer
-        const formData = new FormData();
-        formData.append("image", imgUploaded);
-        formData.append("title", inputTitle);
-        formData.append("category", categoriePhotoId);
+    
+    // Construction du formData à envoyer
+    const formData = new FormData();
+    formData.append("image", imgUploaded);
+    formData.append("title", inputTitle);
+    formData.append("category", categoriePhotoId);
+  
+    // Appel de la fonction fetch avec toutes les informations nécessaires
+    let response = await fetch("http://localhost:5678/api/works", {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Authorization' : "Bearer " + sessionStorage.getItem("token"),
+      },
+      body: formData,
+    });
 
-        // Appel de la fonction fetch avec toutes les informations nécessaires
-        let response = await fetch("http://localhost:5678/api/works", {
-            method: "POST",
-            headers: {
-                'Accept': 'application/json',
-                'Authorization': "Bearer " + sessionStorage.getItem("token"),
-            },
-            body: formData,
-        });
-
-
-        // Conditions: Authentification, redirection et erreurs
-        if (response.status === 200 || 201) {
-
-            // déclenchement du bouton tous, pour pouvoir afficher tous les projets
-            document.querySelector(".bouton-tous").click();
-            clearForm();
-            // todo : fermer la modale
-        } else if (response.status === 401 || 400) {
-            console.log("Action impossible");
-        };
-
-    }
-
+    // Conditions: Authentification, redirection et erreurs
+    if (response.status === 200 || 201) {
+        alert('L\'ajout de l\'image a été réalisé avec succès');
+        // déclenchement du bouton tous, pour pouvoir afficher tous les projets
+        document.querySelector(".bouton-tous").click();
+        clearForm();
+        // todo : fermer la modale
+    } else if (response.status === 401 || 400) {
+        alert('Veuillez ajouter un titre ou image');
+        console.log("Action impossible");
+    };
+}
 };
-
 
 
 function clearForm() {
     document.getElementById("ajoutPhoto-form").reset();
-    /*document.style.visibility = "hidden";
-    
-    inputContainer.style.display = "inline-block";*/
-}
 
+    const userFile = document.getElementById('ajoutPhotoBtn');
+    const imgUploaded = document.getElementById('imgPreview');
+    imgUploaded.remove();
+    userFile.value = '';
+    inputTitle.value = '';
+    let ajoutPhotoLabel = document.getElementById("ajoutPhotoLabel");
+    ajoutPhotoLabel.style.display = "block";
+    let ajoutPhotoIcon = document.getElementById("ajoutPhotoIcon");
+    ajoutPhotoIcon.style.display = "block";
+    let pContainer = document.getElementById("pContainer");
+    pContainer.style.display = "block";
+  }
+
+//Changement de couleur du bouton validé
+function changeBtnColor() {
+    const ajoutPhotoBouton = document.getElementById("ajoutPhotoBtn");
+    const inputTitle = document.getElementById("titrePhoto");
+    const validerBtn = document.getElementById("validerBtn");
+
+    if (ajoutPhotoBouton.files.length === '' || inputTitle.value === "") {
+        validerBtn.classList.add('.validerBtnFalse');
+    } else {
+        validerBtn.classList.add('.validerBtnTrue');
+    }
+
+}
 
 
 // Si l'utilisateur appuie sur la fèche alors retour à la modal d'éditon et supression initiale
@@ -369,5 +398,6 @@ function backToBasicModal() {
     let modalAjout = document.querySelector(".modalAjout"); // Récupère l'élément modalAjout dans le HTML
     modalPhoto.style.display = "block"; // Affiche la modalGallery
     modalAjout.style.display = "none"; // Cache la modalAjout
+    clearForm();
 }
 

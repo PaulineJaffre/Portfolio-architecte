@@ -455,6 +455,7 @@ input[type="submit"]{
 
 #imgPreview {
 	width: 100px;
+	display: block;
 }
 
 
