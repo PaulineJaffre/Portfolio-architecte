@@ -86,6 +86,8 @@ async function getProjectModal() {
         .then(function (response) { 
             return response.json();
         }).then(function (projects) {
+            const modalGallery = document.querySelector(".modalGallery");
+            modalGallery.innerHTML = '';
             projects.forEach(function (project) { // Parcourt tous les projets récupérés
                 addProjectToModal(project); // Appelle la fonction addProjectToModal en lui passant chaque projet en argument
             });   
@@ -165,6 +167,7 @@ function addPicture(e) {
     modalAjout.style.display = "block"; // Affiche la modalAjout
     //modalAjout.querySelector(".closeModal").addEventListener("click", closeModal); // Ajoute un événement de fermeture de modal sur le bouton .closeModal de modalAjout
     modalAjout.addEventListener("click", stopPropagation); // Annule l'événement de fermeture de modal lorsque l'on clique sur la modal elle-même
+    modalAjout.addEventListener("click", changeBtnColor); // Annule l'événement de fermeture de modal lorsque l'on clique sur la modal elle-même
 };
 
 //get toutes les catégories de l'API
@@ -231,9 +234,10 @@ function validateImageProject() {
     
                     imgFile.setAttribute("id", "imgPreview");
                     imgFile.setAttribute('alt', 'Aperçu de l\'image sélectionnée');
+                    
                     imgErrorMessage.classList.add("imgErrorMessage"); // création des messages d'erreurs
-    
-                    imgContainer.appendChild(imgFile); // ajout de l'élément imgFile au parent imgContainer
+
+                    imgContainer.appendChild(imgFile, imgErrorMessage); // ajout de l'élément imgFile au parent imgContainer
     
                     imgFile.src = URL.createObjectURL(ajoutPhotoBouton.files[0]); // création de l'url de la photo ajoutée
                     imgFile.className = 'img-uploaded';
@@ -296,11 +300,10 @@ function validateFileProject() {
     // on vérifie s'il n'y aucun fichier ajouté
 
     let errors = false;
-    if (document.getElementById("ajoutPhotoBtn").files.length == 0) {
-        // on affiche l'erreur dans le span concerné
-        document.getElementById("errorFile").innerHTML = "Veuillez sélectionner un fichier.";
+    if (document.getElementById("ajoutPhotoBtn").files.length === 0) {
         // on indique dont qu'il y a une erreur dans le formulaire
         errors = true;
+        alert("Veuillez sélectionner un fichier.");
     }
     else {
         errors = false;
@@ -331,8 +334,9 @@ async function validateFormProject() {
 
     // s'il n'y a pas d'erreur sur le formulaire, c'est à dire que les fonctions renvoient faux
 
-    if (validationFile === false && validationTitle === false) {
-    
+    if (validationFile === false && validationTitle === false) {    
+
+
     // Construction du formData à envoyer
     const formData = new FormData();
     formData.append("image", imgUploaded);
@@ -355,18 +359,21 @@ async function validateFormProject() {
         // déclenchement du bouton tous, pour pouvoir afficher tous les projets
         document.querySelector(".bouton-tous").click();
         clearForm();
+        getProjectModal();
         // todo : fermer la modale
     } else if (response.status === 401 || 400) {
         alert('Veuillez ajouter un titre ou image');
         console.log("Action impossible");
     };
-}
+    
+} 
 };
 
 
 function clearForm() {
     document.getElementById("ajoutPhoto-form").reset();
     const userFile = document.getElementById('ajoutPhotoBtn');
+    const inputTitle = document.getElementById("titrePhoto");
     const imgUploaded = document.getElementById('imgPreview');
     imgUploaded.remove();
     userFile.value = '';
@@ -377,18 +384,18 @@ function clearForm() {
     ajoutPhotoIcon.style.display = "block";
     let pContainer = document.getElementById("pContainer");
     pContainer.style.display = "block";
+    changeBtnColor()
   }
 
 //Changement de couleur du bouton validé
 function changeBtnColor() {
-    const ajoutPhotoBouton = document.getElementById("ajoutPhotoBtn");
-    const inputTitle = document.getElementById("titrePhoto");
     const validerBtn = document.getElementById("validerBtn");
+    let inputTitle = document.getElementById("titrePhoto");
 
-    if (ajoutPhotoBouton.files.length === '' || inputTitle.value === "") {
-        validerBtn.classList.add('.validerBtnFalse');
+    if (ajoutPhotoBouton.files.length === 0 || inputTitle.value === "") {
+        validerBtn.classList.add('validerBtnFalse');
     } else {
-        validerBtn.classList.add('.validerBtnTrue');
+        validerBtn.classList.remove('validerBtnFalse');
     }
 }
 
