@@ -493,11 +493,7 @@ input[type="submit"]{
 }
 
 .validerBtnFalse{
-	background-color:#A7A7A7;
+	background-color:#A7A7A7 !important;
 }
 
-.validerBtnTrue{
-	background-color: #1D6154;
-	color:#fff;
-}
 

@@ -65,13 +65,16 @@ window.addEventListener('load', async () => { //gestionnaire d'événement à l'
 
     const ajoutButton = document.getElementById("ajout-image"); // Récupère le bouton d'ajout d'images
     ajoutButton.addEventListener("click", addPicture); // Ajoute un événement de clic sur le bouton d'ajout d'images qui appelle la fonction addPicture
-  
+    ajoutButton.addEventListener("click", changeBtnColor); // Ajoute un événement de clic sur le bouton d'ajout d'images qui appelle la fonction addPicture
+
 });
     
     //ajouter une image en cliquant sur le btn AjoutPhotoBtn
 
     let ajoutPhotoBouton = document.getElementById("ajoutPhotoBtn");
-    ajoutPhotoBouton.addEventListener("change", validateImageProject);
+    ajoutPhotoBouton.addEventListener("change", () => {
+        validateImageProject();
+    });
     
 
 
@@ -80,17 +83,11 @@ window.addEventListener('load', async () => { //gestionnaire d'événement à l'
         validateTitleProject(e);
     });
 
-    // Changement de couleur du bouton lorsque le user a rempli le formulaire
-    ajoutPhotoBouton.addEventListener("change", changeBtnColor);
-    
-    let inputTitle = document.getElementById("titrePhoto");
-    inputTitle.addEventListener("change", changeBtnColor);
 
     //validation du formulaire
     const submitPhoto = document.getElementById("validerBtn");
     submitPhoto.addEventListener("click", (e) => { // ajout d'un gestionnaire d'evenement au clic sur le btn de validation
         e.preventDefault();
-
         validateFormProject();
     });
 
