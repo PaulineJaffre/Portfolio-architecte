@@ -16,7 +16,7 @@ let previouslyFocusedElement = null //stockera l'élément qui avait le focus av
 
 function openModal(e) {
     e.preventDefault()/*tant que le user n'aura pas cliqué, la modale ne s'ouvrira pas */
-    modal = document.getElementById(e.target.getAttribute('href'))
+    modal = document.getElementById(e.target.getAttribute('href'));
     const focusableSelector = "button, a, input, textarea";//chaîne de caractères qui spécifie les types d'éléments qui peuvent être mis au point dans la modale
     const focusables = Array.from(modal.querySelectorAll(focusableSelector)); //liste de tous les éléments focusables de la modale, créée en utilisant Array.from et querySelectorAll sur modal
     previouslyFocusedElement = document.querySelector(':focus'); //trouver l'élément qui avait le focus avant l'ouverture de la modale.
@@ -26,6 +26,8 @@ function openModal(e) {
     modal.setAttribute('aria-modal', 'true'); //indique que c'est une boîte de dialogue modale
     modal.querySelector('.closeModal').addEventListener('click', closeModal); /* ajout d'un gestionnaire d'événement de clic sur le bouton de fermeture de la modale pour la fermer */
     modal.querySelector('.closeModal').addEventListener('click', stopPropagation);/* ajout d'un gestionnaire d'événement de clic sur le bouton de fermeture de la modale pour éviter la propagation de l'événement de clic */
+    const filtresCategories = document.querySelectorAll('filtres');
+    filtresCategories.style.display = "none";
 };
 
 /*Création de la constante closeModal et c'est une fonction qui prend en paramètre l'evenement.*/

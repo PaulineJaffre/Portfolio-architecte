@@ -89,6 +89,7 @@ window.addEventListener('load', async () => { //gestionnaire d'événement à l'
     submitPhoto.addEventListener("click", (e) => { // ajout d'un gestionnaire d'evenement au clic sur le btn de validation
         e.preventDefault();
         validateFormProject();
+        closeModal();
     });
 
 

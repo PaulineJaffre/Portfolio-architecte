@@ -47,6 +47,7 @@ async function connexionUser() {
     } else {
       // affiche à l'user un message d'erreur quand mdp et/ou email incorrect
       alert("Le mot de passe et/ou l'e-mail est incorrecte");
+      sessionStorage.removeItem("token", JSON.parse(token));
       sessionStorage.setItem("isLoggedIn", false)
       sessionStorage.setItem("isLoggedOut", true)
       const isLoggedOutList = document.querySelectorAll(".isLoggedOut");
